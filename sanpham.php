@@ -18,34 +18,55 @@ if (isset($_GET['xoa'])) {
 
 $ds = mysqli_query($conn, "SELECT * FROM sanpham");
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quản Lý Sản Phẩm</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-<h2 style="color:red;text-align:center">Quản Lý Sản Phẩm</h2>
+<div class="admin-container">
 
-<form method="post" style="text-align:center">
-    <input type="text" name="ten" placeholder="Tên sản phẩm">
-    <input type="number" name="gia" placeholder="Giá">
-    <input type="text" name="hinh" placeholder="Link hình">
-    <button name="them">Thêm</button>
-</form>
+    <?php include "sidebar.php"; ?>
 
-<table border="1" width="90%" align="center" cellpadding="10">
-<tr>
-    <th>ID</th>
-    <th>Tên</th>
-    <th>Giá</th>
-    <th>Hình ảnh</th>
-    <th>Thao tác</th>
-</tr>
+    <div class="content">
 
-<?php while ($row = mysqli_fetch_assoc($ds)) { ?>
-<tr>
-    <td><?= $row['id'] ?></td>
-    <td><?= $row['ten'] ?></td>
-    <td><?= number_format($row['gia']) ?>đ</td>
-    <td><img src="<?= $row['hinh'] ?>" width="80"></td>
-    <td>
-        <a href="?xoa=<?= $row['id'] ?>">Xóa</a>
-    </td>
-</tr>
-<?php } ?>
-</table>
+        <h2 style="color:red;text-align:center">Quản Lý Sản Phẩm</h2>
+
+        <form method="post" style="text-align:center">
+            <input type="text" name="ten" placeholder="Tên sản phẩm">
+            <input type="number" name="gia" placeholder="Giá">
+            <input type="text" name="hinh" placeholder="Link hình">
+            <button name="them">Thêm</button>
+        </form>
+
+        <br>
+
+        <table border="1" width="100%" align="center" cellpadding="10" cellspacing="0">
+        <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Giá</th>
+            <th>Hình ảnh</th>
+            <th>Thao tác</th>
+        </tr>
+
+        <?php while ($row = mysqli_fetch_assoc($ds)) { ?>
+        <tr>
+            <td><?= $row['id'] ?></td>
+            <td><?= $row['ten'] ?></td>
+            <td><?= number_format($row['gia']) ?>đ</td>
+            <td><img src="<?= $row['hinh'] ?>" width="80"></td>
+            <td>
+                <a href="?xoa=<?= $row['id'] ?>">Xóa</a>
+            </td>
+        </tr>
+        <?php } ?>
+        </table>
+
+    </div>
+</div>
+
+</body>
+</html>
