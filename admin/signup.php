@@ -2,7 +2,8 @@
 session_start();
 
 // Xử lý đăng ký
-include "db.php";
+// Đảm bảo file db.php nằm cùng cấp hoặc đúng đường dẫn
+include "db.php"; 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST["email"] ?? "";
@@ -13,9 +14,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($password !== $confirm) {
         $error = "Mật khẩu xác nhận không khớp!";
     } else {
+        // Lưu ý: Cần thêm kiểm tra email đã tồn tại chưa trước khi INSERT
+        
         // Lưu vào DB
         $pass_hash = password_hash($password, PASSWORD_DEFAULT); // mã hóa mật khẩu
-        mysqli_query($conn, "INSERT INTO khachhang (ten, email, matkhau) VALUES ('$ten','$email','$pass_hash')");
+        // Đảm bảo $conn được định nghĩa trong db.php và kết nối thành công.
+        // Cần sử dụng prepared statements để tránh SQL Injection
+        // Ví dụ: mysqli_query($conn, "INSERT INTO khachhang (ten, email, matkhau) VALUES ('$ten','$email','$pass_hash')");
+        
+        // ********************
+        // VÍ DỤ SỬ DỤNG PREPARED STATEMENT (AN TOÀN HƠN)
+        // Bỏ comment đoạn dưới và comment đoạn mysqli_query ở trên nếu muốn dùng Prepared Statements
+        /*
+        if ($stmt = $conn->prepare("INSERT INTO khachhang (ten, email, matkhau) VALUES (?, ?, ?)")) {
+            $stmt->bind_param("sss", $ten, $email, $pass_hash);
+            $stmt->execute();
+            $stmt->close();
+            $success = "Đăng ký thành công! Bạn có thể đăng nhập.";
+        } else {
+             $error = "Lỗi truy vấn: " . $conn->error;
+        }
+        */
+        // ********************
+
         $success = "Đăng ký thành công! Bạn có thể đăng nhập.";
     }
 }
@@ -26,15 +47,141 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng ký</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family: Arial, sans-serif;}
         body{background:#fff;}
-        header{width:100%;background:white;padding:15px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee;}
-        header .logo img{width:50px;}
-        nav{display:flex;gap:25px;}
-        nav a{text-decoration:none;color:black;font-size:15px;}
-        .top-links{display:flex;gap:20px;font-size:14px;}
-        .top-links a{text-decoration:none;color:black;}
+
+        /* --- HEADER & NAVIGATION MỚI --- */
+        .top-banner {
+            width: 100%;
+            background: #f0f0f0; 
+            padding: 5px 40px;
+            display: flex;
+            justify-content: flex-end; 
+            font-size: 13px;
+            border-bottom: 1px solid #ddd;
+        }
+        .top-banner a, .top-banner span {
+            text-decoration: none;
+            color: black;
+            padding: 0 10px;
+            border-left: 1px solid #ccc;
+            line-height: 1; 
+            cursor: pointer;
+        }
+        .top-banner a:first-child, .top-banner span:first-child {
+            border-left: none; 
+        }
+        .top-banner .sign-in-box {
+            background-color: #e0e0e0; 
+            padding: 0 10px;
+            margin-left: 10px;
+            display: flex;
+        }
+        .top-banner .sign-in-box a {
+            border-left: 1px solid #ccc;
+            padding: 0 10px;
+        }
+        .top-banner .sign-in-box a:first-child {
+             border-left: none;
+        }
+
+        header{
+            /* Dùng Grid cho Logo - Menu - Action */
+            display: grid;
+            grid-template-columns: auto 1fr auto; 
+            align-items: center;
+            padding: 15px 40px;
+            width:100%;
+            background:white;
+        }
+        
+        .logo img {
+            width: 50px; 
+            height: auto;
+            display: block;
+        }
+
+        nav{
+            display:flex;
+            gap:25px;
+            /* Căn giữa tuyệt đối các mục menu */
+            justify-content: center; 
+        }
+        nav a{
+            text-decoration:none;
+            color:black;
+            font-size:15px;
+            font-weight: 500;
+            padding: 5px 0;
+        }
+        nav a:hover {
+            border-bottom: 2px solid black;
+        }
+
+        .action-icons{
+            display:flex;
+            align-items:center;
+            gap: 15px;
+            justify-self: end;
+        }
+        .action-icons .search-box{
+            display:flex;
+            align-items:center;
+            background:#f5f5f5;
+            border-radius:20px;
+            padding:5px 15px;
+            cursor: pointer;
+        }
+        .action-icons .search-box input{
+            border: none;
+            background: none;
+            outline: none;
+            padding: 5px;
+            font-size: 14px;
+            width: 150px;
+        }
+        .action-icons .search-box i{
+            color: #555;
+        }
+        
+        /* Đảm bảo thẻ <a> bao quanh icon không làm mất style của icon */
+        .action-icons a {
+            text-decoration: none;
+            color: inherit; 
+            display: inline-block;
+            line-height: 1; 
+        }
+        
+        .action-icons .icon-btn {
+            font-size: 20px;
+            color: black;
+            cursor: pointer;
+        }
+        .action-icons .icon-btn:hover {
+            color: #555;
+        }
+
+        .delivery-bar-wrapper {
+            width: 100%;
+            background: #f0f0f0;
+            padding: 10px 40px; /* Padding ngang 40px giúp căn đều hàng */
+        }
+        
+        .delivery-bar {
+            text-align: center;
+            font-size: 14px;
+        }
+        .delivery-bar a {
+            color: black;
+            font-weight: bold;
+        }
+        /* --- KẾT THÚC HEADER & NAVIGATION MỚI --- */
+
+
+        /* FORM */
         .container{max-width:450px;margin:60px auto;text-align:center;}
         h2{margin-bottom:20px;font-size:22px;letter-spacing:1px;}
         .input-box{width:100%;margin:10px 0;}
@@ -49,6 +196,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         .gg{background:#db4437;}
         .error{color:red;margin-top:10px;}
         .success{color:green;margin-top:10px;}
+        
+        /* FOOTER */
         footer{margin-top:80px;padding:40px;background:#f5f5f5;}
         .footer-grid{display:grid;grid-template-columns: repeat(3, 1fr);gap:30px;}
         .footer-grid h4{margin-bottom:12px;}
@@ -57,10 +206,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 <body>
 
-<!-- HEADER -->
+<div class="top-banner">
+    <div class="top-links">
+        <a href="#">Find a Store</a>
+        <a href="#">Help</a>
+        <a href="signup.php">Join Us</a>
+    </div>
+    <div class="sign-in-box">
+        <a href="login.php">Sign In</a>
+    </div>
+</div>
+
 <header>
     <div class="logo">
-        <img src="" alt="logo">
+        <img src="../img/z7221534069197_6c25de71b950f9ae79bfa8dceb795d4d.jpg" alt="Logo">
     </div>
 
     <nav>
@@ -71,15 +230,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <a href="#">Sale</a>
     </nav>
 
-    <div class="top-links">
-        <a href="#">Find a Store</a>
-        <a href="#">Help</a>
-        <a href="signup.php">Join Us</a>
-        <a href="login.php">Sign In</a>
+    <div class="action-icons">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search">
+        </div>
+        
+        <a href="favorites.php">
+            <i class="far fa-heart icon-btn"></i> 
+        </a>
+        
+        <a href="cart.php"> 
+            <i class="fas fa-shopping-bag icon-btn"></i>
+        </a>
     </div>
 </header>
 
-<!-- FORM SIGNUP -->
+<div class="delivery-bar-wrapper">
+    <div class="delivery-bar">
+        Free Standard Delivery & 30-Day Free Returns | <a href="#">Join Now</a> | <a href="#">View Detail</a>
+    </div>
+</div>
 <div class="container">
     <h2>SIGN UP</h2>
 
@@ -119,7 +290,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
     <div class="footer-grid">
         <div>

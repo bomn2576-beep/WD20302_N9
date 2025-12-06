@@ -6,6 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST["email"] ?? "";
     $password = $_POST["password"] ?? "";
 
+    // Lưu ý: Đây là kiểm tra đăng nhập demo. Trong thực tế, bạn cần sử dụng CƠ SỞ DỮ LIỆU.
     if ($email === "admin@gmail.com" && $password === "123456") {
         $_SESSION["user"] = $email;
         header("Location: dashboard.php");
@@ -21,6 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         *{
@@ -33,38 +35,138 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             background:#fff;
         }
 
-        /* HEADER */
+        /* HEADER & NAVIGATION */
+        .top-banner {
+            width: 100%;
+            background: #f0f0f0; /* Màu nền xám nhạt */
+            padding: 5px 40px;
+            display: flex;
+            justify-content: flex-end; /* Đẩy tất cả các liên kết sang phải */
+            font-size: 13px;
+            border-bottom: 1px solid #ddd;
+        }
+        .top-banner a, .top-banner span {
+            text-decoration: none;
+            color: black;
+            padding: 0 10px;
+            border-left: 1px solid #ccc;
+            line-height: 1; /* Căn chỉnh theo chiều dọc */
+            cursor: pointer;
+        }
+        .top-banner a:first-child, .top-banner span:first-child {
+            border-left: none; /* Bỏ border trái cho mục đầu tiên */
+        }
+        
+        .top-banner .sign-in-box {
+            background-color: #e0e0e0; /* Nền xanh nhạt cho Sign In/Join Us */
+            padding: 0 10px;
+            margin-left: 10px;
+            display: flex;
+        }
+        .top-banner .sign-in-box a {
+            border-left: 1px solid #ccc;
+            padding: 0 10px;
+        }
+        .top-banner .sign-in-box a:first-child {
+             border-left: none;
+        }
+        
         header{
+            /* Dùng lưới (grid) để dễ dàng căn chỉnh 3 cột: Logo - Menu - Action */
+            display: grid;
+            grid-template-columns: auto 1fr auto; /* Cột Logo (auto), Cột Menu (1fr), Cột Action (auto) */
+            align-items: center;
+            padding: 15px 40px; /* Padding ngang 40px giúp căn đều hàng */
             width:100%;
             background:white;
-            padding:15px 40px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            border-bottom:1px solid #eee;
         }
-        header .logo img{
-            width:50px;
+
+        .logo img {
+            width: 50px; /* Đặt kích thước logo */
+            height: auto;
+            display: block;
         }
+        
         nav{
             display:flex;
             gap:25px;
+            /* Căn giữa tuyệt đối các mục menu trong cột giữa */
+            justify-content: center; 
         }
+        
         nav a{
             text-decoration:none;
             color:black;
             font-size:15px;
+            font-weight: 500;
+            padding: 5px 0;
+        }
+        nav a:hover {
+            border-bottom: 2px solid black;
         }
 
-        .top-links{
+        .action-icons{
             display:flex;
-            gap:20px;
-            font-size:14px;
+            align-items:center;
+            gap: 15px;
+            justify-self: end; /* Đảm bảo nó nằm sát bên phải */
         }
-        .top-links a{
-            text-decoration:none;
-            color:black;
+        .action-icons .search-box{
+            display:flex;
+            align-items:center;
+            background:#f5f5f5;
+            border-radius:20px;
+            padding:5px 15px;
+            cursor: pointer;
         }
+        .action-icons .search-box input{
+            border: none;
+            background: none;
+            outline: none;
+            padding: 5px;
+            font-size: 14px;
+            width: 150px;
+        }
+        .action-icons .search-box i{
+            color: #555;
+        }
+        
+        /* Cần đảm bảo thẻ <a> bao quanh icon không làm mất style của icon */
+        .action-icons a {
+            text-decoration: none;
+            color: inherit; /* Kế thừa màu sắc để icon vẫn màu đen */
+            display: inline-block;
+            line-height: 1; 
+        }
+
+        .action-icons .icon-btn {
+            font-size: 20px;
+            color: black;
+            cursor: pointer;
+        }
+        /* Sử dụng selector để hover lên icon hoặc thẻ <a> bao quanh nó */
+        /* Giữ nguyên vì .icon-btn:hover đã hoạt động tốt */
+        .action-icons .icon-btn:hover { 
+            color: #555;
+        }
+        
+        /* CONTAINER MỚI BAO BỌC DELIVERY BAR ĐỂ CĂN CHỈNH ĐỀU HÀNG */
+        .delivery-bar-wrapper {
+            width: 100%;
+            background: #f0f0f0;
+            padding: 10px 40px; /* Padding ngang 40px giống header */
+        }
+        
+        .delivery-bar {
+            text-align: center;
+            font-size: 14px;
+            /* Nội dung delivery bar sẽ tự căn giữa trong wrapper có padding 40px */
+        }
+        .delivery-bar a {
+            color: black;
+            font-weight: bold;
+        }
+
 
         /* FORM */
         .container{
@@ -166,11 +268,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 <body>
 
-<!-- HEADER -->
+<div class="top-banner">
+    <div class="top-links">
+        <a href="#">Find a Store</a>
+        <a href="#">Help</a>
+        <a href="signup.php">Join Us</a>
+    </div>
+    <div class="sign-in-box">
+        <a href="login.php">Sign In</a>
+    </div>
+</div>
+
 <header>
     <div class="logo">
-        <img src="" alt="logo">
+        <img src="../img/z7221534069197_6c25de71b950f9ae79bfa8dceb795d4d.jpg" alt="PDK STORE Logo">
     </div>
+    
     <nav>
         <a href="#">New & Featured</a>
         <a href="#">Men</a>
@@ -179,16 +292,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <a href="#">Sale</a>
     </nav>
 
-    <div class="top-links">
-        <a href="#">Find a Store</a>
-        <a href="#">Help</a>
-        <a href="signup.php">Join Us</a>
-        <a href="login.php">Sign In</a>
+    <div class="action-icons">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search">
+        </div>
+        
+        <a href="favorites.php">
+            <i class="far fa-heart icon-btn"></i> 
+        </a>
+        
+        <a href="cart.php"> 
+            <i class="fas fa-shopping-bag icon-btn"></i>
+        </a>
     </div>
 </header>
 
-
-<!-- FORM LOGIN -->
+<div class="delivery-bar-wrapper">
+    <div class="delivery-bar">
+        Free Standard Delivery & 30-Day Free Returns | <a href="#">Join Now</a> | <a href="#">View Detail</a>
+    </div>
+</div>
 <div class="container">
     <h2>SIGN IN</h2>
 
@@ -225,7 +349,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </div>
 
 
-<!-- FOOTER -->
 <footer>
     <div class="footer-grid">
         <div>
