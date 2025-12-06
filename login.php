@@ -32,9 +32,44 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         body{
             background:#fff;
         }
+
+        /* HEADER */
+        header{
+            width:100%;
+            background:white;
+            padding:15px 40px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            border-bottom:1px solid #eee;
+        }
+        header .logo img{
+            width:50px;
+        }
+        nav{
+            display:flex;
+            gap:25px;
+        }
+        nav a{
+            text-decoration:none;
+            color:black;
+            font-size:15px;
+        }
+
+        .top-links{
+            display:flex;
+            gap:20px;
+            font-size:14px;
+        }
+        .top-links a{
+            text-decoration:none;
+            color:black;
+        }
+
+        /* FORM */
         .container{
             max-width:450px;
-            margin:80px auto;
+            margin:60px auto;
             text-align:center;
         }
         h2{
@@ -106,10 +141,55 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             margin-top:10px;
         }
 
+        /* FOOTER */
+        footer{
+            margin-top:80px;
+            padding:40px;
+            background:#f5f5f5;
+        }
+        .footer-grid{
+            display:grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap:30px;
+        }
+        .footer-grid h4{
+            margin-bottom:12px;
+        }
+        .footer-grid a{
+            display:block;
+            margin:6px 0;
+            text-decoration:none;
+            color:#333;
+            font-size:14px;
+        }
     </style>
 </head>
 <body>
 
+<!-- HEADER -->
+<header>
+    <div class="logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Logo_nike_principal.jpg" alt="logo">
+    </div>
+
+    <nav>
+        <a href="#">New & Featured</a>
+        <a href="#">Men</a>
+        <a href="#">Women</a>
+        <a href="#">Kids</a>
+        <a href="#">Sale</a>
+    </nav>
+
+    <div class="top-links">
+        <a href="#">Find a Store</a>
+        <a href="#">Help</a>
+        <a href="signup.php">Join Us</a>
+        <a href="login.php">Sign In</a>
+    </div>
+</header>
+
+
+<!-- FORM LOGIN -->
 <div class="container">
     <h2>SIGN IN</h2>
 
@@ -130,7 +210,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <div class="text-row">
             <span>Bạn chưa có tài khoản?</span>
-            <a href="#">Đăng ký ngay</a>
+            <a href="signup.php">Đăng ký ngay</a>
         </div>
 
         <div class="text-row">
@@ -144,6 +224,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <a href="#" class="social-btn gg">Đăng nhập với Google</a>
     </div>
 </div>
+
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-grid">
+        <div>
+            <h4>Resources</h4>
+            <a href="#">Find A Store</a>
+            <a href="#">Become A Member</a>
+            <a href="#">Running Shoe Finder</a>
+            <a href="#">Feedback</a>
+        </div>
+
+        <div>
+            <h4>Help</h4>
+            <a href="#">Get Help</a>
+            <a href="#">Order Status</a>
+            <a href="#">Delivery</a>
+            <a href="#">Payment Options</a>
+        </div>
+
+        <div>
+            <h4>Company</h4>
+            <a href="#">About Us</a>
+            <a href="#">News</a>
+            <a href="#">Careers</a>
+            <a href="#">Investors</a>
+        </div>
+    </div>
+</footer>
 
 </body>
 </html>
