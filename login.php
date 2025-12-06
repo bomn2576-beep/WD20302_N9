@@ -169,7 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <!-- HEADER -->
 <header>
     <div class="logo">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Logo_nike_principal.jpg" alt="logo">
+        <img src="img/z7221534069197_6c25de71b950f9ae79bfa8dceb795d4d.jpg" alt="logo">
     </div>
 
     <nav>
