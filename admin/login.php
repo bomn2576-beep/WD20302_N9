@@ -169,9 +169,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <!-- HEADER -->
 <header>
     <div class="logo">
-        <img src="img/z7221534069197_6c25de71b950f9ae79bfa8dceb795d4d.jpg" alt="logo">
+        <img src="" alt="logo">
     </div>
-
     <nav>
         <a href="#">New & Featured</a>
         <a href="#">Men</a>
