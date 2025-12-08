@@ -1,72 +1,76 @@
 <?php
 session_start();
 
-// --- LOGIC PHP GIẢ ĐỊNH ---
-
-// 1. Kiểm tra đăng nhập (có thể bỏ comment đoạn dưới nếu bạn cần)
-/*
-if (!isset($_SESSION["user"])) {
-    header("Location: login.php");
-    exit;
+// Khởi tạo danh sách yêu thích nếu chưa tồn tại
+if (!isset($_SESSION['favorites'])) {
+    $_SESSION['favorites'] = array();
 }
-*/
+
+// Lấy danh sách yêu thích
+$favorite_items = $_SESSION['favorites'];
+$has_favorites = !empty($favorite_items);
 
 // Đường dẫn ảnh Logo (Đã được định nghĩa từ trước)
 $logo_path = "../img/z7221534069197_6c25de71b950f9ae79bfa8dceb795d4d.jpg";
 
-// 2. Dữ liệu sản phẩm mẫu cho phần cuộn ngang
-// BẠN THAY ĐỔI ĐƯỜNG DẪN ẢNH NÀY ĐỂ TRỎ ĐẾN ẢNH SẢN PHẨM THỰC TẾ CỦA BẠN TRONG THƯ MỤC IMG/
-$featured_products = [
-    [
+// Hàm định dạng tiền VNĐ (Đồng bộ với cart.php)
+function formatVND($amount) {
+    return number_format($amount, 0, ',', '.') . '₫';
+}
+
+// Dữ liệu sản phẩm mẫu cho phần "Find your next favourite"
+// ĐÃ SỬA: CHUYỂN GIÁ SANG DẠNG SỐ NGUYÊN (INTEGER) ĐỂ TRÁNH LỖI ĐỊNH DẠNG.
+$featured_products = array(
+    array(
         'name' => 'Nike Dunk Low Retro SE',
         'category' => "Men's Shoes",
-        'price_new' => '2,815,199₫',
-        'price_old' => '3,519,000₫',
-        'image' => '../img/1.webp' // Sử dụng file ảnh mẫu 1.webp
-    ],
-    [
+        'price_new' => 2815199, // Đã sửa sang int
+        'price_old' => 3519000, // Đã sửa sang int
+        'image' => '../img/1.webp'
+    ),
+    array(
         'name' => 'Nike Cortez Classic',
         'category' => "Men's Shoes",
-        'price_new' => '2,199,000₫',
-        'price_old' => '2,500,000₫',
-        'image' => '../img/2.jpeg' // Sử dụng file ảnh mẫu 2.jpeg
-    ],
-    [
+        'price_new' => 2199000, // Đã sửa sang int
+        'price_old' => 2500000, // Đã sửa sang int
+        'image' => '../img/2.jpeg'
+    ),
+    array(
         'name' => 'Nike Cortez Black/White',
         'category' => "Men's Shoes",
-        'price_new' => '2,199,000₫',
-        'price_old' => '2,500,000₫',
-        'image' => '../img/3.webp' // Sử dụng file ảnh mẫu 3.webp
-    ],
-    [
+        'price_new' => 2199000, // Đã sửa sang int
+        'price_old' => 2500000, // Đã sửa sang int
+        'image' => '../img/3.webp'
+    ),
+    array(
         'name' => 'Nike Cortez Khaki SE',
         'category' => "Women's Shoes",
-        'price_new' => '2,500,000₫',
-        'price_old' => '3,000,000₫',
-        'image' => '../img/4.jpg' // Sử dụng file ảnh mẫu 4.jpg
-    ],
-    [
+        'price_new' => 2500000, // Đã sửa sang int
+        'price_old' => 3000000, // Đã sửa sang int
+        'image' => '../img/4.jpg'
+    ),
+    array(
         'name' => 'Nike Air Force 1',
         'category' => "Kids' Shoes",
-        'price_new' => '1,800,000₫',
-        'price_old' => '2,200,000₫',
-        'image' => '../img/5.jpg' // Sử dụng file ảnh mẫu 5.jpg
-    ]
-];
+        'price_new' => 1800000, // Đã sửa sang int
+        'price_old' => 2200000, // Đã sửa sang int
+        'image' => '../img/5.jpg'
+    )
+);
 ?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yêu Thích | Favourites</title>
+    <title>Yêu Thích | Favourites (<?php echo count($favorite_items); ?>)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        *{margin:0;padding:0;box-sizing:border-box;font-family: Arial, sans-serif;}
-        body{background:#fff;}
+        * {margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif;}
+        body {background: #fff;}
 
-        /* --- HEADER & NAVIGATION --- */
+        /* --- HEADER & NAVIGATION (Giữ nguyên) --- */
         .top-banner {
             width: 100%;
             background: #f0f0f0; 
@@ -94,16 +98,17 @@ $featured_products = [
             display: flex;
         }
         .top-banner .sign-in-box a:first-child {
-             border-left: none;
+            border-left: none;
         }
 
-        header{
+        header {
             display: grid;
             grid-template-columns: auto 1fr auto; 
             align-items: center;
             padding: 15px 40px;
-            width:100%;
-            background:white;
+            width: 100%;
+            background: white;
+            border-bottom: 1px solid #eeeeee;
         }
         
         .logo img {
@@ -112,15 +117,15 @@ $featured_products = [
             display: block;
         }
 
-        nav{
-            display:flex;
-            gap:25px;
+        nav {
+            display: flex;
+            gap: 25px;
             justify-content: center; 
         }
-        nav a{
-            text-decoration:none;
-            color:black;
-            font-size:15px;
+        nav a {
+            text-decoration: none;
+            color: black;
+            font-size: 15px;
             font-weight: 500;
             padding: 5px 0;
         }
@@ -128,21 +133,21 @@ $featured_products = [
             border-bottom: 2px solid black;
         }
 
-        .action-icons{
-            display:flex;
-            align-items:center;
+        .action-icons {
+            display: flex;
+            align-items: center;
             gap: 15px;
             justify-self: end;
         }
-        .action-icons .search-box{
-            display:flex;
-            align-items:center;
-            background:#f5f5f5;
-            border-radius:20px;
-            padding:5px 15px;
+        .action-icons .search-box {
+            display: flex;
+            align-items: center;
+            background: #f5f5f5;
+            border-radius: 20px;
+            padding: 5px 15px;
             cursor: pointer;
         }
-        .action-icons .search-box input{
+        .action-icons .search-box input {
             border: none;
             background: none;
             outline: none;
@@ -150,14 +155,13 @@ $featured_products = [
             font-size: 14px;
             width: 150px;
         }
-        .action-icons .search-box i{
+        .action-icons .search-box i {
             color: #555;
         }
         
-        /* Đảm bảo thẻ <a> bao quanh icon không làm mất style của icon */
         .action-icons a {
             text-decoration: none;
-            color: inherit; /* Kế thừa màu sắc */
+            color: inherit; 
             display: inline-block;
             line-height: 1; 
         }
@@ -175,6 +179,7 @@ $featured_products = [
             width: 100%;
             background: #f0f0f0;
             padding: 10px 40px; 
+            border-bottom: 1px solid #e0e0e0;
         }
         
         .delivery-bar {
@@ -187,14 +192,16 @@ $featured_products = [
         }
         /* --- KẾT THÚC HEADER & NAVIGATION --- */
 
-        /* --- CONTENT FAVORITES --- */
+        /* --- CONTENT FAVORITES (Giữ nguyên) --- */
         .main-content {
             padding: 40px 40px 80px;
             min-height: 50vh;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         .favourites-section h1 {
             font-size: 28px;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
             font-weight: bold;
         }
         .empty-message {
@@ -204,214 +211,457 @@ $featured_products = [
             color: #555;
         }
 
-        /* --- SẢN PHẨM CUỘN NGANG --- */
-        .products-scroll-section {
-            padding: 50px 0;
-        }
-        .products-scroll-section h3 {
-            font-size: 20px;
-            font-weight: 500;
-            margin-bottom: 20px;
-            padding: 0 40px;
-        }
-        .product-carousel {
-            display: flex;
-            overflow-x: scroll; /* Kích hoạt cuộn ngang */
-            padding: 0 40px 20px; /* Thêm padding cho các cạnh và dưới để dễ cuộn */
-            gap: 15px;
-            -webkit-overflow-scrolling: touch; /* Tăng tốc độ cuộn trên thiết bị di động */
-        }
-        /* Tùy chỉnh thanh cuộn (cho Chrome/Edge/Safari) */
-        .product-carousel::-webkit-scrollbar {
-            height: 8px;
-        }
-        .product-carousel::-webkit-scrollbar-thumb {
-            background-color: #ccc;
-            border-radius: 10px;
+        /* Grid sản phẩm yêu thích */
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
         }
         
-        .product-card {
-            flex: 0 0 auto; /* Ngăn không cho các card co lại */
-            width: 300px; /* Chiều rộng cố định cho mỗi card */
+        .favorite-card {
+            position: relative;
+        }
+
+        .favorite-card img {
+            width: 100%;
+            height: auto;
+            background: #f5f5f5;
+            margin-bottom: 10px;
+        }
+
+        .fav-info h4 {
+            font-size: 16px;
+            margin: 5px 0 3px;
+        }
+
+        .fav-info p {
+            font-size: 14px;
+            color: #707070;
+            margin: 2px 0;
+        }
+
+        .fav-info .price-new {
+            font-weight: bold;
+            color: black;
+            margin-top: 5px;
+        }
+
+        .fav-info .price-old {
+            color: #707070;
+            text-decoration: line-through;
+            font-size: 13px;
+        }
+        
+        /* Nút Remove và Add to Bag */
+        .fav-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .fav-actions .remove-btn,
+        .fav-actions .add-btn {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            text-decoration: none;
+            color: black;
+            font-size: 14px;
+        }
+        .fav-actions .add-btn {
+            background: black;
+            color: white;
+            border: none;
+        }
+        
+        /* Phần You Might Also Like */
+        .recommended-section {
+            margin-top: 80px;
+            border-top: 1px solid #eeeeee;
+            padding-top: 20px;
+        }
+        .recommended-section h2 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .recommended-grid {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding-bottom: 20px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .recommended-grid::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* Card sản phẩm gợi ý (sử dụng lại style .product-card nếu có) */
+        .product-card {
+            flex: 0 0 240px; 
+            text-align: left;
+            min-width: 240px;
+            padding-bottom: 10px;
+            position: relative;
         }
         .product-card img {
             width: 100%;
             height: auto;
-            background: #f5f5f5; /* Nền xám nhạt cho vùng ảnh */
-            margin-bottom: 10px;
+            background-color: #f5f5f5;
         }
-        .product-card .info {
+        .product-card .product-info {
             padding: 5px 0;
         }
-        .product-card .info p {
-            margin: 3px 0;
+        .product-card .product-info p {
+            margin: 2px 0;
+        }
+        .product-card .product-name {
+            font-weight: 500;
+            margin-top: 10px;
+            line-height: 1.2;
+        }
+        .product-card .product-category {
+            color: #707070;
             font-size: 14px;
         }
-        .product-card .info .name {
+        .product-card .product-price {
             font-weight: bold;
-            font-size: 15px;
+            margin-top: 10px;
         }
-        .product-card .info .category {
-            color: #777;
-        }
-        .product-card .info .price-new {
-            color: black;
-            font-weight: 500;
-        }
-        .product-card .info .price-old {
-            color: #777;
+        .product-card .product-original-price {
+            color: #707070;
             text-decoration: line-through;
-            margin-left: 8px;
+            font-size: 14px;
+        }
+        
+        /* CSS cho nút Add to Bag trong featured/recommended */
+        .add-to-bag-btn {
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        .add-to-bag-btn:hover {
+            background: #333 !important; 
         }
 
+        /* --- FOOTER (ĐÃ SỬA LỖI CẤU TRÚC) --- */
+        .main-footer {
+            background-color: #f5f5f5;
+            color: #111111;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-columns {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px 40px;
+            gap: 30px; /* Thêm gap cho các cột */
+        }
 
-        /* --- FOOTER --- */
-        footer{margin-top:80px;padding:40px;background:#f5f5f5;}
-        .footer-grid{
-            max-width: 1200px; 
-            margin: 0 auto;
-            display:grid;
-            grid-template-columns: repeat(4, 1fr); 
-            gap:30px;
+        .footer-columns h4 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #111111;
+            font-weight: bold;
+        }
+
+        .footer-columns ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-columns li {
+            margin-bottom: 8px;
         }
-        .footer-grid h4{margin-bottom:12px;}
-        .footer-grid a{display:block;margin:6px 0;text-decoration:none;color:#333;font-size:14px;}
-        .footer-country {
-            text-align: right;
-            font-weight: 600;
+
+        .footer-columns a, .country-selector {
+            color: #707070;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        .footer-columns a:hover {
+            color: #111111;
         }
+
+        .country-selector {
+            color: #111111;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 15px;
+        }
+
+        .footer-bottom span {
+            margin-right: 30px;
+            font-size: 12px;
+            color: #707070;
+        }
+
+        .footer-bottom a {
+            color: #707070;
+            margin-right: 20px;
+            font-size: 12px;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
 
-<div class="top-banner">
-    <div class="top-links">
+    <div class="top-banner">
         <a href="#">Find a Store</a>
         <a href="#">Help</a>
-        <a href="signup.php">Join Us</a>
-    </div>
-    <div class="sign-in-box">
-        <a href="login.php">Sign In</a>
-    </div>
-</div>
-
-<header>
-    <div class="logo">
-        <img src="<?= $logo_path ?>" alt="Logo">
+        <div class="sign-in-box">
+            <a href="../admin/signup.php">Join Us</a>
+            <a href="../admin/login.php">Sign In</a>
+        </div>
     </div>
     
-    <nav>
-        <a href="#">New & Featured</a>
-        <a href="#">Men</a>
-        <a href="#">Women</a>
-        <a href="#">Kids</a>
-        <a href="#">Sale</a>
-    </nav>
-
-    <div class="action-icons">
-        <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search">
+    <header>
+        <div class="logo">
+            <img src="<?php echo $logo_path; ?>" alt="PKD SHOP">
         </div>
         
-        <a href="favorites.php">
-            <i class="fas fa-heart icon-btn" style="color: black;"></i> 
-        </a>
+        <nav>
+            <a href="#">New & Featured</a>
+            <a href="products_men.php">Men</a>
+            <a href="products_women.php">Women</a>
+            <a href="products_kid.php">Kids</a>
+            <a href="#">Sale</a>
+        </nav>
         
-        <a href="cart.php"> 
-            <i class="fas fa-shopping-bag icon-btn"></i>
-        </a>
-    </div>
-</header>
+        <div class="action-icons">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search">
+            </div>
+            <a href="favorites.php" class="icon-btn"><i class="fa-regular fa-heart"></i></a>
+            <a href="cart.php" class="icon-btn"><i class="fa-solid fa-bag-shopping"></i></a>
+        </div>
+    </header>
 
-<div class="delivery-bar-wrapper">
-    <div class="delivery-bar">
-        Free Standard Delivery & 30-Day Free Returns | <a href="#">Join Now</a> | <a href="#">View Detail</a>
-    </div>
-</div>
-<div class="main-content">
-    <div class="favourites-section">
-        <h1>Favourites</h1>
-        <div class="empty-message">
-            Items added to your Favourites will be saved here.
-            <p style="margin-top: 15px;">
-                <a href="#" style="color: black; text-decoration: underline; font-weight: bold;">Shop Now</a>
-            </p>
+    <div class="delivery-bar-wrapper">
+        <div class="delivery-bar">
+            Free Standard Delivery & 30-Day Free Returns | <a href="#">Join Now View Detail</a>
         </div>
     </div>
-</div>
 
-<div class="products-scroll-section">
-    <h3>Find your next favourite</h3>
-    <div class="product-carousel">
-        <?php foreach ($featured_products as $product): ?>
-            <div class="product-card">
-                <img src="<?= $product['image'] ?>" alt="<?= $product['name'] ?>">
-                <div class="info">
-                    <p class="name"><?= $product['name'] ?></p>
-                    <p class="category"><?= $product['category'] ?></p>
-                    <p>
-                        <span class="price-new"><?= $product['price_new'] ?></span>
-                        <span class="price-old"><?= $product['price_old'] ?></span>
-                    </p>
+    <main class="main-content">
+        <section class="favourites-section">
+            <h1>Favourites (<?php echo count($favorite_items); ?>)</h1>
+            
+            <?php if ($has_favorites): ?>
+                <div class="favorites-grid">
+                    <?php foreach ($favorite_items as $key => $item): ?>
+                        <div class="favorite-card">
+                            <img src="<?php echo htmlspecialchars($item['image']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
+                            
+                            <div class="fav-actions">
+                                <a href="cart.php?action=add_from_favorites&key=<?php echo $key; ?>" class="add-btn" title="Add to Bag">
+                                    <i class="fa-solid fa-bag-shopping"></i>
+                                </a>
+                                <a href="cart.php?action=remove_favorite&key=<?php echo $key; ?>" class="remove-btn" title="Remove from Favorites">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </a>
+                            </div>
+
+                            <div class="fav-info">
+                                <h4><?php echo htmlspecialchars($item['name']); ?></h4>
+                                <p><?php echo htmlspecialchars($item['category']); ?></p>
+                                <p>Size: <?php echo htmlspecialchars($item['size']); ?></p>
+                                <p class="price-new"><?php echo formatVND($item['price']); ?></p>
+                                </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-            </div>
-        <?php endforeach; ?>
-        <?php foreach ($featured_products as $product): ?>
-            <div class="product-card">
-                <img src="<?= $product['image'] ?>" alt="<?= $product['name'] ?>">
-                <div class="info">
-                    <p class="name"><?= $product['name'] ?></p>
-                    <p class="category"><?= $product['category'] ?></p>
-                    <p>
-                        <span class="price-new"><?= $product['price_new'] ?></span>
-                        <span class="price-old"><?= $product['price_old'] ?></span>
-                    </p>
+            <?php else: ?>
+                <p class="empty-message">You have no items in your Favourites. Sign in to sync your items.</p>
+            <?php endif; ?>
+        </section>
+
+        <section class="recommended-section">
+            <h2>Find your next favourite</h2>
+            <div class="recommended-grid">
+                <?php foreach ($featured_products as $key => $product): ?>
+                <div class="product-card">
+                    <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                    
+                    <div class="product-info">
+                        <p class="product-name"><?php echo htmlspecialchars($product['name']); ?></p>
+                        <p class="product-category"><?php echo htmlspecialchars($product['category']); ?></p>
+                        <p class="product-price"><?php echo formatVND($product['price_new']); ?></p>
+                        <p class="product-original-price"><?= formatVND($product['price_old']) ?></p>
+                    </div>
+                    
+                    <a href="cart.php?action=add_featured&key=<?= $key; ?>&redirect=favorites" class="add-to-bag-btn" style="position: static; border-radius: 5px; width: 100%; height: auto; margin-top: 10px; background: black; color: white;">
+                        <i class="fa-solid fa-bag-shopping" style="margin-right: 5px;"></i> Add to Bag
+                    </a>
+
                 </div>
+                <?php endforeach; ?>
             </div>
-        <?php endforeach; ?>
-    </div>
-</div>
+        </section>
+    </main>
 
-
-<footer>
-    <div class="footer-grid">
+  <footer class="main-footer">
+    <div class="footer-columns">
         <div>
             <h4>Resources</h4>
-            <a href="#">Find A Store</a>
-            <a href="#">Become A Member</a>
-            <a href="#">Running Shoe Finder</a>
-            <a href="#">PKD Coaching</a>
-            <a href="#">Send Us Feedback</a>
+            <ul>
+                <li><a href="#">Find A Store</a></li>
+                <li><a href="#">Become A Member</a></li>
+                <li><a href="#">Running Shoe Finder</a></li>
+                <li><a href="#">PKD Coaching</a></li>
+                <li><a href="#">Send Us Feedback</a></li>
+            </ul>
         </div>
-
         <div>
             <h4>Help</h4>
-            <a href="#">Get Help</a>
-            <a href="#">Order Status</a>
-            <a href="#">Delivery</a>
-            <a href="#">Returns</a>
-            <a href="#">Payment Options</a>
-            <a href="#">Contact Us</a>
+            <ul>
+                <li><a href="#">Get Help</a></li>
+                <li><a href="#">Order Status</a></li>
+                <li><a href="#">Delivery</a></li>
+                <li><a href="#">Returns</a></li>
+                <li><a href="#">Payment Options</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
         </div>
-
         <div>
             <h4>Company</h4>
-            <a href="#">About Nike</a>
-            <a href="#">News</a>
-            <a href="#">Careers</a>
-            <a href="#">Investors</a>
-            <a href="#">Sustainability</a>
-            <a href="#">Impact</a>
-            <a href="#">Report a Concern</a>
+            <ul>
+                <li><a href="#">About Nike</a></li>
+                <li><a href="#">News</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Investors</a></li>
+                <li><a href="#">Sustainability</a></li>
+                <li><a href="#">Impact</a></li>
+                <li><a href="#">Report a Concern</a></li>
+            </ul>
         </div>
-        
-        <div class="footer-country">
-            <i class="fas fa-globe"></i> Vietnam
+        <div class="country-selector">
+            <span>🌍</span> Vietnam
         </div>
     </div>
+    <div class="footer-bottom">
+        <span>© 2025 PKD, All rights reserved</span>
+        <a href="#">Guides</a>
+        <a href="#">Terms of Sale</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Nike Privacy Policy</a>
+        <a href="#">Privacy Settings</a>
+    </div>
 </footer>
+
+<style>
+/* Footer */
+.main-footer {
+    background-color: #f5f5f5;
+    color: #111111;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.footer-columns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px 40px;
+    gap: 30px;
+}
+
+.footer-columns h4 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #111111;
+    font-weight: bold;
+}
+
+.footer-columns ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-columns li {
+    margin-bottom: 8px;
+}
+
+.footer-columns a,
+.country-selector {
+    color: #707070;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.footer-columns a:hover {
+    color: #111111;
+}
+
+.country-selector {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 40px 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+.footer-bottom span {
+    margin-right: 30px;
+    font-size: 12px;
+    color: #707070;
+}
+
+.footer-bottom a {
+    color: #707070;
+    margin-right: 20px;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.footer-bottom a:hover {
+    color: #111111;
+}
+</style>
 
 </body>
 </html>
