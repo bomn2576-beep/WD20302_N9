@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$db = "shop";
+$db = "shop_giay"; // Đảm bảo tên DB chính xác
 
 $conn = new mysqli($host, $user, $pass, $db);
 

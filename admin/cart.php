@@ -4,28 +4,9 @@ session_start();
 
 // --- 1. PHẦN LOGIC VÀ DỮ LIỆU ---
 
-// Giỏ hàng mẫu (Để test, giả sử có 2 sản phẩm)
-if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
-    $_SESSION['cart'] = [
-        'SKU123' => [
-            'id' => 'SKU123',
-            'name' => 'Nike Air Force 1 \'07',
-            'category' => 'Men\'s Shoes',
-            'price' => 2849000,
-            'size' => '42.5',
-            'quantity' => 1,
-            'image' => '../img/12.jpg' // Thay bằng ảnh test thực tế nếu cần
-        ],
-        'SKU456' => [
-            'id' => 'SKU456',
-            'name' => 'Nike Dunk Low Retro SE (Panda)',
-            'category' => 'Men\'s Shoes',
-            'price' => 2815199,
-            'size' => '40',
-            'quantity' => 2,
-            'image' => '../img/giay3.jpg' // Thay bằng ảnh test thực tế nếu cần
-        ],
-    ];
+// Khởi tạo giỏ hàng nếu chưa tồn tại. ĐÃ XÓA logic GIỎ HÀNG MẪU.
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
 }
 
 // Dữ liệu sản phẩm gợi ý
@@ -60,11 +41,13 @@ $recommendations = [
     ]
 ];
 
-// Hàm tính tổng phụ
+// Hàm tính tổng phụ (Đã thêm kiểm tra khóa an toàn)
 function calculateSubtotal($cart) {
     $subtotal = 0;
     foreach ($cart as $item) {
-        $subtotal += $item['price'] * $item['quantity'];
+        $price = isset($item['price']) ? $item['price'] : 0;
+        $quantity = isset($item['quantity']) ? $item['quantity'] : 0;
+        $subtotal += $price * $quantity;
     }
     return $subtotal;
 }
@@ -92,6 +75,9 @@ function formatVND($amount) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
     <style>
+        /* CSS tương tự như bạn đã cung cấp */
+        /* ... (CSS code) ... */
+
         /* --- THIẾT LẬP CHUNG --- */
         body {
             font-family: Arial, sans-serif;
@@ -498,10 +484,7 @@ function formatVND($amount) {
             
             <nav class="main-nav">
                 <a href="#">New & Featured</a>
-                <a href="#">Men</a>
-                <a href="#">Women</a>
-                <a href="#">Kids</a>
-                <a href="#">Sale</a>
+                <a href="products_men.php">Men</a> <a href="products_women.php">Women</a> <a href="products_kid.php">Kids</a> <a href="#">Sale</a>
             </nav>
             
             <div class="header-actions">
@@ -532,16 +515,24 @@ function formatVND($amount) {
             <?php if (!$has_items): ?>
                 <p>There are no items in your bag.</p>
             <?php else: ?>
-                <?php foreach ($cart_items as $item): ?>
+                <?php foreach ($cart_items as $item): 
+                    // Kiểm tra các khóa trước khi truy cập để tránh lỗi Undefined array key
+                    $item_name = isset($item['name']) ? htmlspecialchars($item['name']) : 'Sản phẩm không tên';
+                    $item_category = isset($item['category']) ? htmlspecialchars($item['category']) : 'N/A';
+                    $item_size = isset($item['size']) ? htmlspecialchars($item['size']) : 'N/A';
+                    $item_quantity = isset($item['quantity']) ? (int)$item['quantity'] : 1;
+                    $item_price = isset($item['price']) ? (float)$item['price'] : 0;
+                    $item_image = isset($item['image']) ? htmlspecialchars($item['image']) : '';
+                ?>
                     <div class="cart-item">
-                        <img class="item-image" src="<?php echo htmlspecialchars($item['image']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
+                        <img class="item-image" src="<?php echo $item_image; ?>" alt="<?php echo $item_name; ?>">
                         
                         <div class="item-info">
                             <div class="item-details">
-                                <h4><?php echo htmlspecialchars($item['name']); ?></h4>
-                                <p><?php echo htmlspecialchars($item['category']); ?></p>
-                                <p>Size: <?php echo htmlspecialchars($item['size']); ?></p>
-                                <p>Quantity: <?php echo htmlspecialchars($item['quantity']); ?></p>
+                                <h4><?php echo $item_name; ?></h4>
+                                <p><?php echo $item_category; ?></p>
+                                <p>Size: <?php echo $item_size; ?></p>
+                                <p>Quantity: <?php echo $item_quantity; ?></p>
                                 
                                 <div class="item-actions">
                                     <button><i class="fa-regular fa-heart"></i> Move to Favourites</button>
@@ -550,7 +541,7 @@ function formatVND($amount) {
                             </div>
                             
                             <div class="item-price">
-                                <span><?php echo formatVND($item['price'] * $item['quantity']); ?></span>
+                                <span><?php echo formatVND($item_price * $item_quantity); ?></span>
                             </div>
                         </div>
                     </div>
