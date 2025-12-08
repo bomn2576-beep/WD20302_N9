@@ -14,15 +14,15 @@
 <div class="container">
 
     <div class="thumbs">
-        <img src="img/1.avif">
-        <img src="img/2.png">
-        <img src="img/3.png">
-        <img src="img/4.png">
-        <img src="img/5.png">
+        <img src="img/4jpg">
+        <img src="img/2.jpeg">
+        <img src="img/4.jpg">
+        <img src="img/9.jpg">
+        <img src="img/11.png">
     </div>
 
     <div class="main-img">
-        <img src="img/1.png">
+        <img src="img/5.jpg">
     </div>
 
     <div class="info">
