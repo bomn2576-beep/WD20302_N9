@@ -1,5 +1,6 @@
 <?php
-include "db.php";
+// Sửa: Thay db.php bằng config.php
+include "config.php";
 
 // Lấy sản phẩm women shoes
 $sql = "SELECT id, name, price, image, category FROM nike_products WHERE category='women shoes'";
@@ -33,7 +34,6 @@ function format_currency($amount) {
 </head>
 <body>
 
-    <!-- HEADER -->
     <div class="top-utility-nav">
         <div class="utility-links">
             <a href="#">Find a Store</a>
@@ -87,7 +87,7 @@ function format_currency($amount) {
             <div class="product-grid">
                 <?php foreach ($products as $product): ?>
                     <div class="product-card">
-                        <a href="#">
+                        <a href="add_to_cart.php?id=<?php echo $product['id']; ?>&name=<?php echo urlencode($product['name']); ?>&price=<?php echo $product['price']; ?>&image=<?php echo urlencode($product['image']); ?>&category=<?php echo urlencode($product['category']); ?>">
                             <img src="<?php echo $product['image']; ?>" 
                                  alt="<?php echo htmlspecialchars($product['name']); ?>" 
                                  class="product-image">

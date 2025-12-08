@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$db = "shop";
+$db = "shop_giay"; // ĐÃ SỬA TÊN DATABASE TỪ 'shop'
 
 $conn = new mysqli($host, $user, $pass, $db);
 
