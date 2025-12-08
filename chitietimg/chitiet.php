@@ -14,7 +14,7 @@
 <div class="container">
 
     <div class="thumbs">
-        <img src="img/4jpg">
+        <img src="img/4.jpg">
         <img src="img/2.jpeg">
         <img src="img/4.jpg">
         <img src="img/9.jpg">
