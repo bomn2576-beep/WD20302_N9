@@ -1,44 +1,29 @@
 <?php
 session_start();
-
-// Kết nối DB
-include "../config.php"; 
+include "../config.php";
 
 $error = "";
 $success = "";
 
+// Xử lý form khôi phục mật khẩu
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $ten = trim($_POST["ten"] ?? "");
     $email = trim($_POST["email"] ?? "");
-    $password = $_POST["password"] ?? "";
-    $confirm = $_POST["confirm"] ?? "";
 
-    if (empty($ten) || empty($email) || empty($password) || empty($confirm)) {
-        $error = "Vui lòng điền đầy đủ các trường.";
-    } elseif ($password !== $confirm) {
-        $error = "Mật khẩu xác nhận không khớp!";
+    if (empty($email)) {
+        $error = "Vui lòng nhập email!";
     } else {
-        $stmt_check = $conn->prepare("SELECT email FROM khachhang WHERE email = ?");
+        $stmt_check = $conn->prepare("SELECT id FROM khachhang WHERE email = ?");
         $stmt_check->bind_param("s", $email);
         $stmt_check->execute();
         $stmt_check->store_result();
 
         if ($stmt_check->num_rows > 0) {
-            $error = "Email đã được đăng ký. Vui lòng sử dụng email khác.";
+            // Email tồn tại, hiển thị thông báo thành công
+            $success = "Chúng tôi đã gửi link khôi phục mật khẩu đến email của bạn!";
         } else {
-            $pass_hash = password_hash($password, PASSWORD_DEFAULT);
-            $role_id = 1;
-
-            $stmt_insert = $conn->prepare("INSERT INTO khachhang (ten, email, matkhau, role_id) VALUES (?, ?, ?, ?)");
-            $stmt_insert->bind_param("sssi", $ten, $email, $pass_hash, $role_id);
-
-            if ($stmt_insert->execute()) {
-                $success = "Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.";
-            } else {
-                $error = "Lỗi khi đăng ký: " . $stmt_insert->error;
-            }
-            $stmt_insert->close();
+            $error = "Email không tồn tại trong hệ thống!";
         }
+
         $stmt_check->close();
     }
 }
@@ -48,9 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng ký thành viên</title>
+    <title>Khôi phục mật khẩu</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <style>
         *{
             margin:0;
@@ -197,40 +181,65 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             text-decoration:none;
         }
 
-        /* FOOTER */
+        /* FOOTER FIXED NÂNG CAO */
         footer{
             background:#f5f5f5;
-            padding:50px 0;
+            padding:50px 20px;
             margin-top: auto;
             width:100%;
+            font-family: Arial, sans-serif;
         }
+
         .footer-container{
             max-width:1300px;
             margin:auto;
-            display:grid;
-            grid-template-columns: repeat(3, 1fr) auto;
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:space-between;
             gap:40px;
-            padding:0 40px;
+            padding:0 20px;
+            align-items:flex-start; /* canh tất cả cột trên cùng */
         }
+
+        .footer-col{
+            flex:1 1 200px;
+            min-width:180px;
+            margin-bottom:20px;
+        }
+
         .footer-col h4{
             font-size:18px;
-            margin-bottom:10px;
+            margin-bottom:15px;
+            color:#000;
         }
+
         .footer-col a{
-            color:black;
+            display:block;
+            color:#333;
             text-decoration:none;
             font-size:14px;
-            opacity:0.7;
+            margin-bottom:8px;
+            opacity:0.8;
+            transition:opacity 0.3s;
         }
+
         .footer-col a:hover{
             opacity:1;
         }
 
+        /* PHẦN VIỆT NAM */
         .footer-lang{
             display:flex;
             align-items:center;
             gap:8px;
             font-size:16px;
+            color:#333;
+            margin-top:20px;
+        }
+
+        .footer-lang i{
+            font-size:18px;
+            line-height:1;
         }
     </style>
 </head>
@@ -240,7 +249,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <div class="top-banner">
     <a href="#">Find a Store</a>
     <a href="#">Help</a>
-    <a href="#">Join Us</a>
+    <a href="../admin/signup.php">Join Us</a>
     <a href="../admin/login.php">Sign In</a>
 </div>
 
@@ -275,15 +284,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <div class="delivery-bar-wrapper">
     <div class="delivery-bar">
         Free Standard Delivery & 30-Day Free Returns | 
-        <a href="#">Join Now</a> | 
+        <a href="../admin/login.php">Join Now</a> | 
         <a href="#">View Detail</a>
     </div>
 </div>
 
-<!-- FORM -->
+<!-- FORM KHÔI PHỤC -->
 <div class="container">
-    <h2>BECOME A MEMBER</h2>
-    <p>Tạo tài khoản thành viên PKD để mua sắm và nhận ưu đãi độc quyền.</p>
+    <h2>Khôi phục mật khẩu</h2>
+    <p>Nhập email để nhận link khôi phục mật khẩu.</p>
 
     <?php if ($error): ?>
         <p style="color:red;"><?php echo $error; ?></p>
@@ -295,19 +304,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <form method="POST">
         <div class="input-box">
-            <input type="text" name="ten" placeholder="vui lòng nhập tên của bạn" required>
+            <input type="email" name="email" placeholder="Nhập email của bạn" required>
         </div>
-        <div class="input-box">
-            <input type="email" name="email" placeholder="vui lòng nhập email" required>
-        </div>
-        <div class="input-box">
-            <input type="password" name="password" placeholder="vui lòng nhập mật khẩu" required>
-        </div>
-        <div class="input-box">
-            <input type="password" name="confirm" placeholder="xác nhận mật khẩu" required>
-        </div>
-
-        <button class="btn" type="submit">SIGN UP</button>
+        <button class="btn" type="submit">Gửi yêu cầu</button>
 
         <div class="text-row">
             <span>Bạn đã có tài khoản?</span>

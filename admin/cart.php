@@ -4,7 +4,7 @@ session_start();
 
 // --- 1. PHẦN LOGIC VÀ DỮ LIỆU ---
 
-// Khởi tạo giỏ hàng nếu chưa tồn tại. Đã xóa logic GIỎ HÀNG MẪU.
+// Khởi tạo giỏ hàng nếu chưa tồn tại. ĐÃ XÓA logic GIỎ HÀNG MẪU.
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
@@ -75,6 +75,9 @@ function formatVND($amount) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
     <style>
+        /* CSS tương tự như bạn đã cung cấp */
+        /* ... (CSS code) ... */
+
         /* --- THIẾT LẬP CHUNG --- */
         body {
             font-family: Arial, sans-serif;

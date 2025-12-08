@@ -1,5 +1,5 @@
 <?php
-// Sửa: Thay db.php bằng config.php
+// ĐÃ SỬA: Thay db.php bằng config.php
 include "config.php";
 
 // Lấy sản phẩm men shoes

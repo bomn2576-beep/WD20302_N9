@@ -6,7 +6,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST["email"] ?? "";
     $password = $_POST["password"] ?? "";
 
-    // Lưu ý: Đây là kiểm tra đăng nhập demo. Trong thực tế, bạn cần sử dụng CƠ SỞ DỮ LIỆU.
     if ($email === "admin@gmail.com" && $password === "123456") {
         $_SESSION["user"] = $email;
         header("Location: dashboard.php");
@@ -24,266 +23,232 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Đăng nhập</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family: Arial, sans-serif;
-        }
-        body{
-            background:#fff;
-        }
+<style>
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+body{
+    background:#fff;
+}
 
-        /* HEADER & NAVIGATION */
-        .top-banner {
-            width: 100%;
-            background: #f0f0f0; /* Màu nền xám nhạt */
-            padding: 5px 40px;
-            display: flex;
-            justify-content: flex-end; /* Đẩy tất cả các liên kết sang phải */
-            font-size: 13px;
-            border-bottom: 1px solid #ddd;
-        }
-        .top-banner a, .top-banner span {
-            text-decoration: none;
-            color: black;
-            padding: 0 10px;
-            border-left: 1px solid #ccc;
-            line-height: 1; /* Căn chỉnh theo chiều dọc */
-            cursor: pointer;
-        }
-        .top-banner a:first-child, .top-banner span:first-child {
-            border-left: none; /* Bỏ border trái cho mục đầu tiên */
-        }
-        
-        .top-banner .sign-in-box {
-            background-color: #e0e0e0; /* Nền xanh nhạt cho Sign In/Join Us */
-            padding: 0 10px;
-            margin-left: 10px;
-            display: flex;
-        }
-        .top-banner .sign-in-box a {
-            border-left: 1px solid #ccc;
-            padding: 0 10px;
-        }
-        .top-banner .sign-in-box a:first-child {
-             border-left: none;
-        }
-        
-        header{
-            /* Dùng lưới (grid) để dễ dàng căn chỉnh 3 cột: Logo - Menu - Action */
-            display: grid;
-            grid-template-columns: auto 1fr auto; /* Cột Logo (auto), Cột Menu (1fr), Cột Action (auto) */
-            align-items: center;
-            padding: 15px 40px; /* Padding ngang 40px giúp căn đều hàng */
-            width:100%;
-            background:white;
-        }
+/* FIX Z-INDEX để không bị đè icon cart & favorite */
+header, .top-banner {
+    position: relative;
+    z-index: 1000;
+}
 
-        .logo img {
-            width: 50px; /* Đặt kích thước logo */
-            height: auto;
-            display: block;
-        }
-        
-        nav{
-            display:flex;
-            gap:25px;
-            /* Căn giữa tuyệt đối các mục menu trong cột giữa */
-            justify-content: center; 
-        }
-        
-        nav a{
-            text-decoration:none;
-            color:black;
-            font-size:15px;
-            font-weight: 500;
-            padding: 5px 0;
-        }
-        nav a:hover {
-            border-bottom: 2px solid black;
-        }
+/* =================== TOP BANNER ==================== */
+.top-banner {
+    width: 100%;
+    background: #f0f0f0;
+    padding: 5px 40px;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 13px;
+    border-bottom: 1px solid #ddd;
+}
+.top-banner a, .top-banner span {
+    text-decoration: none;
+    color: black;
+    padding: 0 10px;
+    border-left: 1px solid #ccc;
+}
+.top-banner a:first-child {
+    border-left:none;
+}
+.top-banner .sign-in-box {
+    background-color: #e0e0e0;
+    padding: 0 10px;
+    margin-left: 10px;
+    display: flex;
+}
+.top-banner .sign-in-box a:first-child {
+    border-left:none;
+}
 
-        .action-icons{
-            display:flex;
-            align-items:center;
-            gap: 15px;
-            justify-self: end; /* Đảm bảo nó nằm sát bên phải */
-        }
-        .action-icons .search-box{
-            display:flex;
-            align-items:center;
-            background:#f5f5f5;
-            border-radius:20px;
-            padding:5px 15px;
-            cursor: pointer;
-        }
-        .action-icons .search-box input{
-            border: none;
-            background: none;
-            outline: none;
-            padding: 5px;
-            font-size: 14px;
-            width: 150px;
-        }
-        .action-icons .search-box i{
-            color: #555;
-        }
-        
-        /* Cần đảm bảo thẻ <a> bao quanh icon không làm mất style của icon */
-        .action-icons a {
-            text-decoration: none;
-            color: inherit; /* Kế thừa màu sắc để icon vẫn màu đen */
-            display: inline-block;
-            line-height: 1; 
-        }
+/* =================== HEADER ==================== */
+header{
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    padding: 15px 40px;
+    background:white;
+    width:100%;
+}
 
-        .action-icons .icon-btn {
-            font-size: 20px;
-            color: black;
-            cursor: pointer;
-        }
-        /* Sử dụng selector để hover lên icon hoặc thẻ <a> bao quanh nó */
-        /* Giữ nguyên vì .icon-btn:hover đã hoạt động tốt */
-        .action-icons .icon-btn:hover { 
-            color: #555;
-        }
-        
-        /* CONTAINER MỚI BAO BỌC DELIVERY BAR ĐỂ CĂN CHỈNH ĐỀU HÀNG */
-        .delivery-bar-wrapper {
-            width: 100%;
-            background: #f0f0f0;
-            padding: 10px 40px; /* Padding ngang 40px giống header */
-        }
-        
-        .delivery-bar {
-            text-align: center;
-            font-size: 14px;
-            /* Nội dung delivery bar sẽ tự căn giữa trong wrapper có padding 40px */
-        }
-        .delivery-bar a {
-            color: black;
-            font-weight: bold;
-        }
+.logo img {
+    width: 50px;
+    height: auto;
+}
 
+nav{
+    display:flex;
+    gap:25px;
+    justify-content: center;
+}
+nav a{
+    text-decoration:none;
+    color:black;
+    font-size:15px;
+    font-weight: 500;
+}
+nav a:hover {
+    border-bottom: 2px solid black;
+}
 
-        /* FORM */
-        .container{
-            max-width:450px;
-            margin:60px auto;
-            text-align:center;
-        }
-        h2{
-            margin-bottom:20px;
-            font-size:22px;
-            letter-spacing:1px;
-        }
-        .input-box{
-            width:100%;
-            margin:10px 0;
-        }
-        .input-box input{
-            width:100%;
-            padding:14px;
-            border-radius:8px;
-            border:1px solid #ddd;
-            background:#f4f4f4;
-            outline:none;
-            font-size:15px;
-        }
-        .btn{
-            width:100%;
-            padding:13px;
-            background:black;
-            border:none;
-            border-radius:8px;
-            color:white;
-            margin:15px 0;
-            cursor:pointer;
-            font-size:16px;
-        }
-        .btn:hover{
-            opacity:0.8;
-        }
-        .text-row{
-            display:flex;
-            justify-content:space-between;
-            font-size:14px;
-            margin-top:10px;
-        }
-        .text-row a{
-            color:#1a73e8;
-            text-decoration:none;
-        }
-        .social-box{
-            margin-top:25px;
-        }
-        .social-btn{
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            width:100%;
-            padding:12px;
-            border-radius:6px;
-            color:white;
-            font-size:15px;
-            margin:8px 0;
-            cursor:pointer;
-            text-decoration:none;
-        }
-        .fb{
-            background:#1877f2;
-        }
-        .gg{
-            background:#db4437;
-        }
-        .error{
-            color:red;
-            margin-top:10px;
-        }
+/* ACTION ICONS */
+.action-icons{
+    display:flex;
+    align-items:center;
+    gap: 15px;
+}
+.action-icons a{
+    text-decoration:none;
+    color:black;
+}
+.action-icons .icon-btn{
+    font-size:20px;
+    cursor:pointer;
+}
 
-        /* FOOTER */
-        footer{
-            margin-top:80px;
-            padding:40px;
-            background:#f5f5f5;
-        }
-        .footer-grid{
-            display:grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap:30px;
-        }
-        .footer-grid h4{
-            margin-bottom:12px;
-        }
-        .footer-grid a{
-            display:block;
-            margin:6px 0;
-            text-decoration:none;
-            color:#333;
-            font-size:14px;
-        }
-    </style>
+/* SEARCH BOX */
+.search-box{
+    display:flex;
+    align-items:center;
+    background:#f5f5f5;
+    padding:5px 15px;
+    border-radius:20px;
+}
+.search-box input{
+    border:none;
+    background:none;
+    outline:none;
+    padding-left:8px;
+}
+
+/* =================== DELIVERY BAR ==================== */
+.delivery-bar-wrapper {
+    width: 100%;
+    background: #f0f0f0;
+    padding: 10px 40px;
+}
+.delivery-bar {
+    text-align: center;
+    font-size: 14px;
+}
+.delivery-bar a {
+    color: black;
+    font-weight: bold;
+}
+
+/* =================== LOGIN FORM ==================== */
+.container{
+    max-width:450px;
+    margin:60px auto;
+    text-align:center;
+}
+h2{
+    font-size:22px;
+    margin-bottom:20px;
+}
+.input-box input{
+    width:100%;
+    padding:14px;
+    margin:10px 0;
+    border-radius:8px;
+    background:#f4f4f4;
+    border:1px solid #ddd;
+}
+.btn{
+    width:100%;
+    padding:13px;
+    margin-top:10px;
+    background:black;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+}
+.btn:hover{
+    opacity:0.8;
+}
+.text-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+    margin-top:10px;
+}
+.text-row a{
+    color:#1a73e8;
+    text-decoration:none;
+}
+.error{
+    color:red;
+    margin-top:10px;
+}
+
+/* =================== FOOTER (ĐÃ FIX) ==================== */
+footer{
+    background:#f5f5f5;
+    margin-top:80px;
+    padding:50px 40px;
+}
+
+.footer-container{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr) auto;
+    gap:40px;
+}
+
+.footer-col h4{
+    font-size:16px;
+    margin-bottom:12px;
+    font-weight:bold;
+}
+
+.footer-col a{
+    display:block;
+    text-decoration:none;
+    color:#333;
+    font-size:14px;
+    margin:6px 0;
+}
+
+.footer-lang{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:14px;
+}
+.footer-lang i{
+    font-size:18px;
+}
+</style>
 </head>
 <body>
 
+<!-- TOP BANNER -->
 <div class="top-banner">
-    <div class="top-links">
-        <a href="#">Find a Store</a>
-        <a href="#">Help</a>
-        <a href="signup.php">Join Us</a>
-    </div>
+    <a href="#">Find a Store</a>
+    <a href="#">Help</a>
+    <a href="signup.php">Join Us</a>
+
     <div class="sign-in-box">
         <a href="login.php">Sign In</a>
     </div>
 </div>
 
+<!-- HEADER -->
 <header>
     <div class="logo">
         <img src="../img/z7221534069197_6c25de71b950f9ae79bfa8dceb795d4d.jpg" alt="PDK STORE Logo">
     </div>
-    
+
     <nav>
         <a href="#">New & Featured</a>
         <a href="#">Men</a>
@@ -297,22 +262,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <i class="fas fa-search"></i>
             <input type="text" placeholder="Search">
         </div>
-        
-        <a href="favorites.php">
-            <i class="far fa-heart icon-btn"></i> 
-        </a>
-        
-        <a href="cart.php"> 
-            <i class="fas fa-shopping-bag icon-btn"></i>
-        </a>
+
+        <a href="favorites.php"><i class="far fa-heart icon-btn"></i></a>
+        <a href="cart.php"><i class="fas fa-shopping-bag icon-btn"></i></a>
     </div>
 </header>
 
+<!-- DELIVERY BAR -->
 <div class="delivery-bar-wrapper">
     <div class="delivery-bar">
-        Free Standard Delivery & 30-Day Free Returns | <a href="#">Join Now</a> | <a href="#">View Detail</a>
+        Free Standard Delivery & 30-Day Free Returns | 
+        <a href="#">Join Now</a> | 
+        <a href="#">View Details</a>
     </div>
 </div>
+
+<!-- LOGIN FORM -->
 <div class="container">
     <h2>SIGN IN</h2>
 
@@ -322,58 +287,64 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <form action="" method="POST">
         <div class="input-box">
-            <input type="email" name="email" placeholder="vui lòng nhập email" required>
+            <input type="email" name="email" placeholder="Vui lòng nhập email" required>
         </div>
 
         <div class="input-box">
-            <input type="password" name="password" placeholder="vui lòng nhập mật khẩu" required>
+            <input type="password" name="password" placeholder="Vui lòng nhập mật khẩu" required>
         </div>
 
         <button class="btn" type="submit">SIGN IN</button>
 
         <div class="text-row">
-            <span>Bạn chưa có tài khoản?</span>
+            <span>Chưa có tài khoản?</span>
             <a href="signup.php">Đăng ký ngay</a>
         </div>
 
         <div class="text-row">
-            <span>Bạn quên mật khẩu?</span>
-            <a href="#">Khôi phục mật khẩu</a>
+            <span>Quên mật khẩu?</span>
+            <a href="../admin/khoiphuc.php">Khôi phục</a>
         </div>
     </form>
-
-    <div class="social-box">
-        <a href="#" class="social-btn fb">Đăng nhập với Facebook</a>
-        <a href="#" class="social-btn gg">Đăng nhập với Google</a>
-    </div>
 </div>
 
-
+<!-- FOOTER -->
 <footer>
-    <div class="footer-grid">
-        <div>
+    <div class="footer-container">
+
+        <div class="footer-col">
             <h4>Resources</h4>
             <a href="#">Find A Store</a>
             <a href="#">Become A Member</a>
             <a href="#">Running Shoe Finder</a>
-            <a href="#">Feedback</a>
+            <a href="#">PKD Coaching</a>
+            <a href="#">Send Us Feedback</a>
         </div>
 
-        <div>
+        <div class="footer-col">
             <h4>Help</h4>
             <a href="#">Get Help</a>
             <a href="#">Order Status</a>
             <a href="#">Delivery</a>
+            <a href="#">Returns</a>
             <a href="#">Payment Options</a>
+            <a href="#">Contact Us</a>
         </div>
 
-        <div>
+        <div class="footer-col">
             <h4>Company</h4>
-            <a href="#">About Us</a>
+            <a href="#">About Nike</a>
             <a href="#">News</a>
             <a href="#">Careers</a>
             <a href="#">Investors</a>
+            <a href="#">Sustainability</a>
+            <a href="#">Report a Concern</a>
         </div>
+
+        <div class="footer-lang">
+            <i class="fa-solid fa-globe"></i> Vietnam
+        </div>
+
     </div>
 </footer>
 
