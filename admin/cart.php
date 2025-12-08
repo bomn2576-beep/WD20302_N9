@@ -1,16 +1,11 @@
 <?php
-
 session_start();
 
 // --- 1. PHẦN LOGIC VÀ DỮ LIỆU ---
 
 // Khởi tạo giỏ hàng và danh sách yêu thích nếu chưa tồn tại
-if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = array();
-}
-if (!isset($_SESSION['favorites'])) {
-    $_SESSION['favorites'] = array();
-}
+if (!isset($_SESSION['cart'])) $_SESSION['cart'] = array();
+if (!isset($_SESSION['favorites'])) $_SESSION['favorites'] = array();
 
 // Dữ liệu sản phẩm gợi ý (Giữ nguyên)
 $recommendations = array(
@@ -268,7 +263,8 @@ function formatVND($amount) {
     <style>
         /* CSS tương tự như bạn đã cung cấp */
         /* --- THIẾT LẬP CHUNG --- */
-        body {
+        body 
+        {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -281,102 +277,8 @@ function formatVND($amount) {
             text-decoration: none;
         }
 
-        /* --- HEADER --- */
-        .top-bar {
-            background-color: #f5f5f5;
-            padding: 5px 40px;
-            display: flex;
-            justify-content: flex-end;
-            font-size: 12px;
-        }
-        
-        .top-bar a {
-            margin-left: 15px;
-            color: #111111;
-        }
-
-        .header-main-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 40px;
-            border-bottom: 1px solid #eeeeee;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-        
-        .main-nav {
-            flex-grow: 1;
-            text-align: center;
-        }
-
-        .main-nav a {
-            margin: 0 15px;
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-        }
-        
-        .search-box {
-            display: flex;
-            align-items: center;
-            background-color: #f5f5f5;
-            border-radius: 20px;
-            padding: 8px 15px;
-            margin-right: 15px;
-        }
-        
-        .search-box button {
-            background: none;
-            border: none;
-            font-size: 16px;
-            color: #111111;
-            margin: 0;
-            padding: 0;
-            cursor: pointer;
-        }
-
-        .search-box input {
-            border: none;
-            background: none;
-            outline: none;
-            padding-left: 10px;
-            width: 150px;
-            font-size: 15px;
-        }
-
-        .header-actions button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            margin-left: 10px;
-            padding: 5px;
-            color: #111111;
-            font-size: 20px;
-        }
-        
-        .header-actions button i.fa-heart {
-            font-weight: 300;
-        }
-        
-        .header-actions button i.fa-bag-shopping {
-            font-weight: 900;
-        }
-
-        .promo-bar {
-            text-align: center;
-            background-color: #eeeeee;
-            padding: 8px 0;
-            font-size: 14px;
-            border-bottom: 1px solid #e0e0e0;
-        }
+        /* --- HEADER (Đã xóa) --- */
+        /* Giữ lại các style liên quan đến main content và footer */
         
         /* --- NỘI DUNG GIỎ HÀNG & TÓM TẮT --- */
         .cart-container {
@@ -680,46 +582,7 @@ function formatVND($amount) {
 </head>
 
 <body>
-
-    <header class="main-header">
-        <div class="top-bar">
-            <a href="#">Find a Store</a>
-            <a href="#">Help</a>
-            <a href="../admin/signup.php">Join Us</a> 
-            <a href="../admin/login.php">Sign In</a> 
-        </div>
-        
-        <div class="header-main-nav">
-            <div class="logo">
-                <img src="../img/z7221534069197_6c25de71b950f9ae79bfa8dceb795d4d.jpg" alt="PKD SHOP" style="height: 30px;">
-            </div>
-            
-            <nav class="main-nav">
-                <a href="#">New & Featured</a>
-                <a href="products_men.php">Men</a> <a href="products_women.php">Women</a> <a href="products_kid.php">Kids</a> <a href="#">Sale</a>
-            </nav>
-            
-            <div class="header-actions">
-                <div class="search-box">
-                    <button>
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                    <input type="text" placeholder="Search">
-                </div>
-                <button onclick="window.location.href='favorites.php'">
-                    <i class="fa-regular fa-heart"></i>
-                </button>
-                <button onclick="window.location.href='cart.php'"> 
-                    <i class="fa-solid fa-bag-shopping"></i>
-                </button>
-            </div>
-        </div>
-        
-        <div class="promo-bar">
-            Free Standard Delivery & 30-Day Free Returns | <a href="#">Join Now View Detail</a>
-        </div>
-    </header>
-
+<?php include 'heder.php'; ?>
     <main class="cart-container">
         <section class="cart-details">
             <h2>Bag (<?php echo count($cart_items); ?>)</h2>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PKD SHOP | Trang Chủ (Static HTML)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* CSS CƠ BẢN ĐỂ DỄ DÀNG THIẾT KẾ (Nên chuyển sang file style.css) */
+        * {margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif;}
+        body {background: #fff; line-height: 1.5;}
+
+        /* --- HEADER & NAVIGATION (ĐỊNH DẠNG TĨNH TƯƠNG ĐƯƠNG VỚI HEDER.PHP) --- */
+        .top-banner {
+            width: 100%;
+            background: #f0f0f0; 
+            padding: 5px 40px;
+            display: flex;
+            justify-content: flex-end; 
+            font-size: 13px;
+            border-bottom: 1px solid #ddd;
+        }
+        .top-banner a {
+            text-decoration: none;
+            color: black;
+            padding: 0 10px;
+            border-left: 1px solid #ccc;
+            line-height: 1; 
+            cursor: pointer;
+        }
+        .top-banner .sign-in-box {
+            background-color: #e0e0e0; 
+            padding: 0 10px;
+            margin-left: 10px;
+            display: flex;
+        }
+        header {
+            display: grid;
+            grid-template-columns: auto 1fr auto; 
+            align-items: center;
+            padding: 15px 40px;
+            width: 100%;
+            background: white;
+            border-bottom: 1px solid #eeeeee;
+        }
+        .logo img { width: 50px; height: auto; display: block; }
+        nav { display: flex; gap: 25px; justify-content: center; }
+        nav a { text-decoration: none; color: black; font-size: 15px; font-weight: 500; padding: 5px 0; }
+        .action-icons { display: flex; align-items: center; gap: 15px; justify-self: end; }
+        .action-icons .search-box { display: flex; align-items: center; background: #f5f5f5; border-radius: 20px; padding: 5px 15px; cursor: pointer; }
+        .action-icons .search-box input { border: none; background: none; outline: none; padding: 5px; font-size: 14px; width: 150px; }
+        .action-icons .icon-btn { font-size: 20px; color: black; cursor: pointer; }
+        
+        .delivery-bar-wrapper {
+            width: 100%;
+            background: #f0f0f0;
+            padding: 10px 40px; 
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .delivery-bar { text-align: center; font-size: 14px; }
+        .delivery-bar a { color: black; font-weight: bold; }
+        /* --- KẾT THÚC HEADER --- */
+
+
+        /* --- CONTAINER CHÍNH (Đã có trong index.php) --- */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* --- FEATURED ITEMS/BANNER (Đã có trong index.php) --- */
+        .featured-section { padding: 40px 0; }
+        .featured-section h2 { font-size: 32px; font-weight: 800; margin-bottom: 20px; }
+        .featured-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        
+        .featured-card { position: relative; height: 400px; overflow: hidden; border-radius: 5px; }
+        .featured-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+        .featured-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        }
+        .featured-content { position: absolute; bottom: 30px; left: 30px; color: white; z-index: 10; }
+        .featured-content h3 { font-size: 28px; margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
+        .featured-content p { font-size: 16px; margin-bottom: 15px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+        .featured-button {
+            background-color: white; color: black; padding: 10px 20px; border-radius: 20px;
+            text-decoration: none; font-weight: bold; display: inline-block; transition: background-color 0.3s;
+        }
+        
+        /* --- PRODUCT GRID SECTIONS (Đã có trong index.php) --- */
+        .product-grid-section { padding: 40px 0; }
+        .product-grid-section h2 { font-size: 24px; font-weight: 600; margin-bottom: 20px; }
+        .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+        .product-card { text-align: left; }
+        .product-card img { width: 100%; height: auto; background-color: #f5f5f5; margin-bottom: 10px; }
+        .product-info p { margin: 2px 0; }
+        .product-name { font-weight: 600; line-height: 1.2; font-size: 16px; }
+        .product-category { color: #707070; font-size: 14px; }
+        .product-price { font-weight: bold; margin-top: 5px; }
+
+        /* --- FOOTER (Đã có trong favorites.php) --- */
+        .main-footer { background-color: #f5f5f5; color: #111111; padding-top: 40px; padding-bottom: 20px; }
+        .footer-columns { display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 0 40px 40px; gap: 30px; }
+        .footer-columns h4 { font-size: 16px; margin-bottom: 15px; color: #111111; font-weight: bold; }
+        .footer-columns ul { list-style: none; padding: 0; margin: 0; }
+        .footer-columns a, .country-selector { color: #707070; font-size: 14px; text-decoration: none; }
+        .country-selector { font-weight: bold; display: flex; align-items: center; color: #111111; }
+        .footer-bottom { display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: center; max-width: 1200px; margin: 0 auto; padding: 15px 40px 0; border-top: 1px solid #e0e0e0; }
+        .footer-bottom span { margin-right: 30px; font-size: 12px; color: #707070; }
+        .footer-bottom a { color: #707070; margin-right: 20px; font-size: 12px; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="top-banner">
+        <a href="#">Find a Store</a>
+        <a href="#">Help</a>
+        <div class="sign-in-box">
+            <a href="admin/signup.php">Join Us</a>
+            <a href="admin/login.php">Sign In</a>
+        </div>
+    </div>
+    
+    <header>
+        <div class="logo">
+            <img src="../img/z7221534069197_6c25de71b950f9ae79bfa8dceb795d4d.jpg" alt="PKD SHOP Logo">
+        </div>
+        
+        <nav>
+            <a href="#">New & Featured</a>
+            <a href="products_men.php">Men</a>
+            <a href="products_women.php">Women</a>
+            <a href="products_kid.php">Kids</a>
+            <a href="#">Sale</a>
+        </nav>
+        
+        <div class="action-icons">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search">
+            </div>
+            <a href="favorites.php" class="icon-btn"><i class="fa-regular fa-heart"></i></a>
+            <a href="cart.php" class="icon-btn"><i class="fa-solid fa-bag-shopping"></i></a>
+        </div>
+    </header>
+
+    <div class="delivery-bar-wrapper">
+        <div class="delivery-bar">
+            Free Standard Delivery & 30-Day Free Returns | <a href="#">Join Now View Detail</a>
+        </div>
+    </div>
+    <main class="main-container">
+        <section class="featured-section">
+            <h2>Always ready for a move</h2>
+            <div class="featured-grid">
+                
+                <a href="#" class="featured-card">
+                    <img src="https://wallpaperaccess.com/full/789354.jpg" alt="FOR RUNNING">
+                    <div class="featured-content">
+                        <h3>FOR RUNNING</h3>
+                        <p>Dominatrix Style & Speed</p>
+                        <span class="featured-button">Shop</span>
+                    </div>
+                </a>
+
+                <a href="#" class="featured-card">
+                    <img src="https://wallpapers.com/images/hd/cool-nike-shoe-ft6gor5zjwt950u2.jpg" alt="FOR LIFESTYLE">
+                    <div class="featured-content">
+                        <h3>FOR LIFESTYLE</h3>
+                        <p>Win on and off court</p>
+                        <span class="featured-button">Shop</span>
+                    </div>
+                </a>
+
+                <a href="#" class="featured-card" style="grid-column: 1 / span 2; height: 500px;"> <img src="https://wallpaperaccess.com/full/281072.jpg" alt="FOR ALL DAY">
+                    <div class="featured-content">
+                        <h3>FOR ALL DAY</h3>
+                        <p>Made for comfort</p>
+                        <span class="featured-button">Shop</span>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+        
+        <section class="product-grid-section">
+            <h2>Seasonal Picks</h2>
+            <div class="product-grid">
+                
+                <div class="product-card">
+                    <img src="https://static.nike.com/a/images/t_web_pdp_535_v2/f_auto/c21d4108-ff10-4e33-800f-ad747987e2c6/NIKE+CALM+MULE.png" alt="Nike Calm">
+                    <div class="product-info">
+                        <p class="product-name">Nike Calm</p>
+                        <p class="product-category">Men's Slides</p>
+                        <p class="product-price">1.209.000₫</p>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://static.nike.com/a/images/t_web_pdp_535_v2/f_auto/b7d9211c-26e7-431a-ac24-b0540fb3c00f/AIR+FORCE+1+%2707.png" alt="Nike Air Force 1 '07">
+                    <div class="product-info">
+                        <p class="product-name">Nike Air Force 1 '07</p>
+                        <p class="product-category">Women's Shoes</p>
+                        <p class="product-price">2.929.000₫</p>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="https://static.nike.com/a/images/t_web_pdp_535_v2/f_auto/f17e5987-8eab-419c-8b33-6525651cc4cc/W+NIKE+CALM+MULE.png" alt="Nike Calm Mule">
+                    <div class="product-info">
+                        <p class="product-name">Nike Calm Mule</p>
+                        <p class="product-category">Men's Mules</p>
+                        <p class="product-price">1.759.000₫</p>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/6e4451e0-40d8-41dc-8f67-daa597605ca4/NIKE+DUNK+LOW+%28GS%29.png" alt="Nike Dunk Low">
+                    <div class="product-info">
+                        <p class="product-name">Nike Dunk Low</p>
+                        <p class="product-category">Men's Shoes</p>
+                        <p class="product-price">3.209.000₫</p>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <section class="product-grid-section">
+            <h2>Trending Icons</h2>
+            <div class="product-grid">
+                
+                <div class="product-card">
+                    <img src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/cb6c330d-868d-4a15-b84e-00a2c868346c/W+NIKE+CORTEZ.png" alt="Nike Cortez">
+                    <div class="product-info">
+                        <p class="product-name">Nike Cortez</p>
+                        <p class="product-category">Men's Shoes</p>
+                        <p class="product-price">2.319.000₫</p>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/f6105318-3c83-4836-ab5b-96f2cd95de00/AIR+ZOOM+PEGASUS+41.png" alt="Nike Pegasus 41">
+                    <div class="product-info">
+                        <p class="product-name">Nike Pegasus 41</p>
+                        <p class="product-category">Running Shoes</p>
+                        <p class="product-price">3.519.000₫</p>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/w2ldynwtyuspv6r5rffj/AIR+MAX+90.png" alt="Nike Air Max 90">
+                    <div class="product-info">
+                        <p class="product-name">Nike Air Max 90</p>
+                        <p class="product-category">Lifestyle</p>
+                        <p class="product-price">3.800.000₫</p>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="https://static.nike.com/a/images/t_web_pw_592_v2/f_auto/3bdcf8a1-b301-4444-8dfd-92601bbf42ac/W+BLAZER+MID+%2777.png" alt="Nike Blazer Mid">
+                    <div class="product-info">
+                        <p class="product-name">Nike Blazer Mid</p>
+                        <p class="product-category">Vintage</p>
+                        <p class="product-price">2.800.000₫</p>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+        
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-columns">
+            <div>
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Find A Store</a></li>
+                    <li><a href="#">Become A Member</a></li>
+                    <li><a href="#">Running Shoe Finder</a></li>
+                    <li><a href="#">PKD Coaching</a></li>
+                    <li><a href="#">Send Us Feedback</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Help</h4>
+                <ul>
+                    <li><a href="#">Get Help</a></li>
+                    <li><a href="#">Order Status</a></li>
+                    <li><a href="#">Delivery</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">Payment Options</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Nike</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Investors</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                    <li><a href="#">Impact</a></li>
+                    <li><a href="#">Report a Concern</a></li>
+                </ul>
+            </div>
+            <div class="country-selector">
+                <span>🌍</span> Vietnam
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 PKD, All rights reserved</span>
+            <a href="#">Guides</a>
+            <a href="#">Terms of Sale</a>
+            <a href="#">Terms of Use</a>
+            <a href="#">Nike Privacy Policy</a>
+            <a href="#">Privacy Settings</a>
+        </div>
+    </footer>
+    </body>
+</html>
