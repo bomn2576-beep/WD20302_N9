@@ -1,20 +1,43 @@
 <?php
 session_start();
+include "../config.php"; // file kết nối DB
 
-// Xử lý đăng nhập (demo)
+$error = "";
+
+// Xử lý đăng nhập
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $email = $_POST["email"] ?? "";
+    $email = trim($_POST["email"] ?? "");
     $password = $_POST["password"] ?? "";
 
-    if ($email === "admin@gmail.com" && $password === "123456") {
-        $_SESSION["user"] = $email;
-        header("Location: dashboard.php");
-        exit;
+    if (empty($email) || empty($password)) {
+        $error = "Vui lòng nhập email và mật khẩu!";
     } else {
-        $error = "Email hoặc mật khẩu không đúng!";
+        // Lấy thông tin user từ DB
+        $stmt = $conn->prepare("SELECT matkhau FROM khachhang WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows === 1) {
+            $stmt->bind_result($hash);
+            $stmt->fetch();
+
+            // So sánh mật khẩu
+            if (password_verify($password, $hash)) {
+                $_SESSION["user"] = $email; // lưu session
+                header("Location:../Trang Chủ/index.php "); // chuyển sang index.php
+                exit;
+            } else {
+                $error = "Mật khẩu không đúng!";
+            }
+        } else {
+            $error = "Email không tồn tại!";
+        }
+        $stmt->close();
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>

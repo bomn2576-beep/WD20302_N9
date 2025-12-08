@@ -806,9 +806,11 @@ function formatVND($amount) {
                 <span><?php echo $has_items ? formatVND($total) : '—'; ?></span>
             </div>
 
-            <button class="member-checkout-btn <?php echo $has_items ? 'active' : ''; ?>">
-                Member checkout
-            </button>
+            <button class="member-checkout-btn <?php echo $has_items ? 'active' : ''; ?>" 
+        <?php echo $has_items ? 'onclick="window.location.href=\'../admin/thanhtoan.php\'"' : ''; ?>>
+    Member checkout
+</button>
+
         </aside>
     </main>
 

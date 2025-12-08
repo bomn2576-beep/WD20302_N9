@@ -1,37 +1,57 @@
 <?php
 // header.php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
-<!-- Header + Top Banner + Delivery Bar -->
-<style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family: Arial, sans-serif;}
-    .top-banner{width:100%;background:#f0f0f0;padding:5px 40px;display:flex;justify-content:flex-end;font-size:13px;border-bottom:1px solid #ddd;}
-    .top-banner a{text-decoration:none;color:black;padding:0 10px;border-left:1px solid #ccc;}
-    .top-banner a:first-child{border-left:none;}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header</title>
+    <!-- Load Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family: Arial, sans-serif;}
+        .top-banner{width:100%;background:#f0f0f0;padding:5px 40px;display:flex;justify-content:flex-end;font-size:13px;border-bottom:1px solid #ddd;}
+        .top-banner a, .top-banner span{text-decoration:none;color:black;padding:0 10px;border-left:1px solid #ccc;}
+        .top-banner a:first-child{border-left:none;}
+        .top-banner span{font-weight:bold;}
 
-    header{display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:15px 40px;}
-    .logo img{width:50px;}
-    nav{display:flex;gap:25px;justify-content:center;}
-    nav a{text-decoration:none;color:black;font-size:15px;font-weight:500;}
-    nav a:hover{border-bottom:2px solid black;}
-    .action-icons{display:flex;align-items:center;gap:15px;}
-    .action-icons a{text-decoration:none;color:black;}
-    .action-icons .search-box{display:flex;align-items:center;background:#f5f5f5;border-radius:20px;padding:5px 15px;}
-    .search-box input{border:none;background:none;outline:none;padding:5px;font-size:14px;width:150px;}
+        header{display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:15px 40px;}
+        .logo img{width:50px;}
+        nav{display:flex;gap:25px;justify-content:center;}
+        nav a{text-decoration:none;color:black;font-size:15px;font-weight:500;}
+        nav a:hover{border-bottom:2px solid black;}
+        .action-icons{display:flex;align-items:center;gap:15px;}
+        .action-icons a{text-decoration:none;color:black;}
+        .action-icons .icon-btn{font-size:20px;cursor:pointer;}
+        .action-icons .search-box{display:flex;align-items:center;background:#f5f5f5;border-radius:20px;padding:5px 15px;}
+        .search-box input{border:none;background:none;outline:none;padding:5px;font-size:14px;width:150px;}
 
-    .delivery-bar-wrapper{width:100%;background:#f0f0f0;padding:10px 40px;}
-    .delivery-bar{text-align:center;font-size:14px;}
-</style>
-
+        .delivery-bar-wrapper{width:100%;background:#f0f0f0;padding:10px 40px;}
+        .delivery-bar{text-align:center;font-size:14px;}
+    </style>
+</head>
+<body>
+<!-- TOP BANNER -->
 <div class="top-banner">
     <a href="#">Find a Store</a>
     <a href="#">Help</a>
-    <a href="../admin/signup.php">Join Us</a>
-    <a href="../admin/login.php">Sign In</a>
+
+    <?php if (isset($_SESSION['user_name'])): ?>
+        <span>Hi, <?= htmlspecialchars($_SESSION['user_name']) ?></span>
+    <?php else: ?>
+        <a href="../admin/signup.php">Join Us</a>
+        <a href="../admin/login.php">Sign In</a>
+    <?php endif; ?>
 </div>
 
+<!-- HEADER -->
 <header>
     <div class="logo">
-        <a href="">
+        <a href="../index.php">
             <img src="../img/z7221534069197_6c25de71b950f9ae79bfa8dceb795d4d.jpg" alt="PDK STORE Logo">
         </a>
     </div>
@@ -50,11 +70,14 @@
             <input type="text" placeholder="Search">
         </div>
 
+        <!-- ICON FAVORITES -->
         <a href="../admin/favorites.php"><i class="far fa-heart icon-btn"></i></a>
+        <!-- ICON CART -->
         <a href="../admin/cart.php"><i class="fas fa-shopping-bag icon-btn"></i></a>
     </div>
 </header>
 
+<!-- DELIVERY BAR -->
 <div class="delivery-bar-wrapper">
     <div class="delivery-bar">
         Free Standard Delivery & 30-Day Free Returns | 
@@ -62,3 +85,5 @@
         <a href="#">View Detail</a>
     </div>
 </div>
+</body>
+</html>
