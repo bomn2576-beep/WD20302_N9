@@ -8,8 +8,9 @@ include 'db.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nike Store</title>
+    <title>PKD Store</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
@@ -24,7 +25,7 @@ include 'db.php';
 
     <header>
         <a href="index.php" class="logo">
-            <svg viewBox="0 0 24 24" role="img" width="60px" height="60px" fill="none"><path fill="currentColor" fill-rule="evenodd" d="M21 8.719L7.836 14.303C6.74 14.768 5.818 15 5.075 15c-.836 0-1.445-.295-1.819-.884-.485-.76-.273-1.982.559-3.272.494-.754 1.122-1.446 1.734-2.108-.144.234-1.415 2.349-.025 3.345.275.2.666.298 1.147.298.386 0 .829-.063 1.316-.19L21 8.719z" clip-rule="evenodd"></path></svg>
+            <img src="img/z7221534069197_6c25de71b950f9ae79bfa8dceb795d4d.jpg" alt="">
         </a>
         <ul class="nav-links">
             <li><a href="#">New & Featured</a></li>
@@ -33,14 +34,20 @@ include 'db.php';
             <li><a href="#">Kids</a></li>
             <li><a href="#">Sale</a></li>
         </ul>
-        <div class="nav-right">
-            <div class="search-box">
-                <span class="search-icon">⌕</span>
-                <input type="text" placeholder="Search">
-            </div>
-            <span class="icon-btn">♡</span>
-            <span class="icon-btn">👜</span>
+    <div class="action-icons">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search">
         </div>
+        
+        <a href="favorites.php">
+            <i class="fas fa-heart icon-btn" style="color: black;"></i> 
+        </a>
+        
+        <a href="cart.php"> 
+            <i class="fas fa-shopping-bag icon-btn"></i>
+        </a>
+    </div>
     </header>
 
     <div class="delivery-bar-wrapper">
@@ -51,7 +58,6 @@ include 'db.php';
         <div class="hero-content">
             <h1>Just Do It</h1>
             <p>Your daily dose of greatness.</p>
-            <button class="btn-white">Shop Now</button>
         </div>
     </section>
 
@@ -129,7 +135,7 @@ include 'db.php';
             <div class="footer-col">
                 <h4>Company</h4>
                 <ul>
-                    <li>About Nike</li>
+                    <li>About PKD</li>
                     <li>News</li>
                     <li>Careers</li>
                     <li>Investors</li>
@@ -137,7 +143,7 @@ include 'db.php';
             </div>
         </div>
         <div class="footer-bottom">
-            <div>© 2024 Nike, Inc. All Rights Reserved</div>
+            <div>© 2025 PKD, Inc. All Rights Reserved</div>
             <div class="footer-links">
                 <span>Guides</span>
                 <span>Terms of Sale</span>
