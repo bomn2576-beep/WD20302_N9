@@ -1,49 +1,110 @@
 body {
     margin: 0;
-    padding: 20px;
-    font-family: Arial, sans-serif;
+    font-family: "Inter", Arial, sans-serif;
     background: #fff;
 }
 
-.title {
-    text-align: center;
-    font-size: 28px;
-    margin-bottom: 40px;
-}
-
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
+.container {
+    max-width: 1300px;
     margin: auto;
+    padding: 40px 20px;
+    display: grid;
+    grid-template-columns: 120px 1fr 380px;
+    gap: 40px;
 }
 
-.product-card {
-    padding: 20px;
-    border-radius: 10px;
-    background: #f6f6f6;
-    text-align: center;
-    transition: 0.2s;
+/* LEFT THUMBNAILS */
+.thumbs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
-
-.product-card:hover {
-    transform: translateY(-5px);
-}
-
-.product-card img {
+.thumbs img {
     width: 100%;
-    height: 260px;
+    border-radius: 8px;
+    background: #f6f6f6;
+    padding: 6px;
+    cursor: pointer;
+    transition: .2s;
+}
+.thumbs img:hover {
+    transform: scale(1.05);
+}
+
+/* MAIN IMAGE */
+.main-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f6f6f6;
+    border-radius: 14px;
+    padding: 30px;
+}
+.main-img img {
+    width: 100%;
+    max-height: 500px;
     object-fit: contain;
 }
 
-.info h3 {
-    font-size: 18px;
-    margin: 15px 0 5px;
+/* RIGHT PANEL */
+.info {
+    padding-right: 20px;
+}
+.product-name {
+    font-size: 30px;
+    font-weight: 700;
+}
+.category {
+    font-size: 17px;
+    color: #666;
+    margin-top: 4px;
+}
+.price {
+    margin-top: 15px;
+    font-size: 26px;
+    font-weight: 700;
 }
 
-.price {
-    color: #d40000;
-    font-weight: bold;
+/* SIZE GRID */
+.size-title {
+    margin-top: 30px;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.sizes {
+    margin-top: 15px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+.sizes button {
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: .2s;
+}
+.sizes button:hover {
+    border-color: #000;
+}
+
+/* ADD TO BAG */
+.add {
+    margin-top: 30px;
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 40px;
+    background: #000;
+    color: #fff;
     font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .25s;
+}
+.add:hover {
+    opacity: .75;
 }
