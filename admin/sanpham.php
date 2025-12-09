@@ -1,5 +1,5 @@
 <?php
-include "db.php";
+include "../config.php";
 
 // ====================== THÊM ======================
 if (isset($_POST['them'])) {

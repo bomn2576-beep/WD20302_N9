@@ -1,8 +1,41 @@
 <?php
-include "db.php";
+// SỬA LỖI ĐƯỜNG DẪN: Sử dụng "../config.php" để đi ra thư mục cha
+require_once "../config.php"; 
 
-// Đếm số sản phẩm
-$sp = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS tong FROM sanpham"));
+// 1. Khởi tạo giá trị mặc định để tránh lỗi 'Undefined Index'
+$sp = ['tong' => 0]; 
+$sql = "SELECT COUNT(*) AS tong FROM sanpham";
+
+// 2. Sử dụng Prepared Statement (Hướng đối tượng) và Xử lý lỗi
+if (isset($conn) && $conn instanceof mysqli) {
+    if ($stmt = $conn->prepare($sql)) {
+        
+        // 3. Thực thi truy vấn
+        if ($stmt->execute()) {
+            
+            // 4. Lấy kết quả
+            $result = $stmt->get_result();
+            
+            // 5. Kiểm tra và lấy dữ liệu
+            if ($result && $result->num_rows > 0) {
+                $sp = $result->fetch_assoc();
+            }
+            
+            $stmt->close(); // Đóng statement
+        } else {
+            // Ghi log lỗi thực thi
+            error_log("Lỗi thực thi truy vấn: " . $stmt->error);
+        }
+    } else {
+        // Ghi log lỗi chuẩn bị truy vấn (thường là lỗi cú pháp SQL)
+        error_log("Lỗi chuẩn bị truy vấn: " . $conn->error);
+    }
+} else {
+    // Xử lý khi biến $conn không tồn tại (lỗi trong config.php)
+    error_log("Lỗi: Không tìm thấy đối tượng kết nối cơ sở dữ liệu \$conn.");
+}
+
+// KHÔNG CẦN THAY ĐỔI PHẦN HTML NỮA
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,6 +43,7 @@ $sp = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS tong FROM sanph
     <title>Dashboard</title>
 
     <style>
+        /* CSS */
         body {
             margin: 0;
             font-family: Arial;
@@ -68,7 +102,7 @@ $sp = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS tong FROM sanph
 
         <div class="dash-box">
             <h3>Tổng sản phẩm</h3>
-            <p><?= $sp['tong'] ?></p>
+            <p><?= htmlspecialchars($sp['tong'] ?? 0) ?></p>
         </div>
 
         <div class="dash-box">
