@@ -1,7 +1,39 @@
 <?php
 session_start();
 
-// Giỏ hàng hiện tại
+// Mặc định, trạng thái thanh toán là FALSE
+$checkout_complete = false;
+
+// 1. KIỂM TRA VÀ XỬ LÝ THANH TOÁN
+if (isset($_POST['checkout'])) {
+    
+    // --- LƯU Ý QUAN TRỌNG: Đây là nơi bạn sẽ gọi hàm lưu đơn hàng vào database
+    // Dữ liệu khách hàng đã được gửi trong $_POST (name, phone, address_detail,...)
+    // Giỏ hàng nằm trong $_SESSION['cart']
+    
+    // 2. ĐÁNH DẤU HOÀN TẤT VÀ XÓA GIỎ HÀNG
+    // Đặt biến trạng thái để hiển thị thông báo cảm ơn
+    $_SESSION['checkout_complete'] = true;
+    
+    // Xóa giỏ hàng khỏi Session
+    unset($_SESSION['cart']);
+    
+    // CHUYỂN HƯỚNG SANG CHÍNH TRANG NÀY (Post/Redirect/Get Pattern)
+    // Đây là bước BẮT BUỘC để tránh lỗi F5/Reload tạo đơn hàng trùng lặp.
+    // Việc này cũng đảm bảo các ô input sẽ bị xóa hết sau khi submit.
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+// 3. KIỂM TRA TRẠNG THÁI HIỂN THỊ THÔNG BÁO
+if (isset($_SESSION['checkout_complete']) && $_SESSION['checkout_complete'] === true) {
+    $checkout_complete = true;
+    // Sau khi hiển thị thông báo, xóa biến trạng thái để lần truy cập sau không hiện nữa
+    unset($_SESSION['checkout_complete']);
+}
+
+
+// Giỏ hàng hiện tại (sẽ trống nếu vừa hoàn tất)
 $cart_items = $_SESSION['cart'] ?? [];
 $total = 0;
 ?>
@@ -37,15 +69,58 @@ $total = 0;
         .delivery-bar-wrapper{width:100%;background:#f0f0f0;padding:10px 40px;}
         .delivery-bar{text-align:center;font-size:14px;}
 
-        /* THANH TOÁN */
-        .container{max-width:800px;margin:50px auto;padding:20px;background:#fff;border-radius:8px;flex-grow:1;}
+        /* THANH TOÁN & CONTAINER */
+        .container{max-width:1000px;margin:50px auto;padding:20px;background:#fff;border-radius:8px;flex-grow:1;display:flex;gap:30px;flex-wrap: wrap;} /* Thêm flex-wrap để responsive tốt hơn */
         h2{text-align:center;margin-bottom:20px;}
+        
+        .cart-summary, .customer-info{flex:1 1 400px;} /* Điều chỉnh flex basis */
+
         table{width:100%;border-collapse:collapse;margin-bottom:20px;}
-        table th, table td{border:1px solid #ccc;padding:10px;text-align:center;}
-        .total{text-align:right;font-weight:bold;margin-bottom:20px;}
-        .qr{text-align:center;margin-top:20px;}
-        .qr img{max-width:200px;}
+        table th, table td{border:1px solid #ccc;padding:10px;text-align:center;font-size:14px;}
+        .total{text-align:right;font-weight:bold;font-size:18px;margin-bottom:20px;padding-right:10px;}
         .btn-back{display:inline-block;padding:10px 20px;background:#007bff;color:#fff;border-radius:5px;text-decoration:none;margin-bottom:20px;}
+        
+        /* Customer Info Form */
+        .customer-info h3{margin-bottom:15px;text-align:center;}
+        .form-group{margin-bottom:15px;}
+        .form-group label{display:block;margin-bottom:5px;font-weight:bold;font-size:14px;}
+        .form-group input, .form-group textarea, .form-group select{
+            width:100%;padding:10px;border:1px solid #ccc;border-radius:5px;font-size:14px;
+        }
+        .btn-checkout{
+            width:100%;padding:15px;background:#000;color:#fff;border:none;border-radius:5px;
+            font-size:18px;font-weight:bold;cursor:pointer;margin-top:20px;transition:background 0.3s;
+        }
+        .btn-checkout:hover{background:#333;}
+        
+        /* Thank You Message Style */
+        .thank-you-message {
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+            border: 1px solid #d4edda;
+            background-color: #f7fff7;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .thank-you-message h2{
+            color: #28a745;
+            font-size: 28px;
+        }
+        .thank-you-message p{
+            font-size: 16px;
+            margin-top: 15px;
+        }
+        .thank-you-message a{
+            margin-top: 20px;
+            display: inline-block;
+            padding: 10px 20px;
+            background: #000;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
 
         /* FOOTER */
         footer{background:#f5f5f5;padding:50px 20px;margin-top:auto;width:100%;}
@@ -60,7 +135,6 @@ $total = 0;
 </head>
 <body>
 
-<!-- TOP BANNER -->
 <div class="top-banner">
     <a href="#">Find a Store</a>
     <a href="#">Help</a>
@@ -68,7 +142,6 @@ $total = 0;
     <a href="../admin/login.php">Sign In</a>
 </div>
 
-<!-- HEADER -->
 <header>
     <div class="logo">
         <a href="">
@@ -95,7 +168,6 @@ $total = 0;
     </div>
 </header>
 
-<!-- DELIVERY BAR -->
 <div class="delivery-bar-wrapper">
     <div class="delivery-bar">
         Free Standard Delivery & 30-Day Free Returns | 
@@ -104,50 +176,103 @@ $total = 0;
     </div>
 </div>
 
-<!-- THANH TOÁN -->
 <div class="container">
-    <h2>Thanh Toán</h2>
-
-    <?php if(empty($cart_items)): ?>
-        <p>Giỏ hàng của bạn đang trống.</p>
-        <a href="../index.php" class="btn-back">Quay lại mua sắm</a>
+    
+    <?php if ($checkout_complete): ?>
+        <div class="thank-you-message">
+            <h2>🎉 Đặt hàng thành công!</h2>
+            <p>Cảm ơn quý khách đã tin tưởng và đặt hàng tại PDK STORE. Chúng tôi sẽ xử lý đơn hàng và liên hệ với quý khách sớm nhất.</p>
+            <a href="../Trang Chủ/index.php">Tiếp tục mua sắm</a>
+        </div>
     <?php else: ?>
-        <table>
-            <thead>
-                <tr>
-                    <th>Hình</th>
-                    <th>Tên sản phẩm</th>
-                    <th>Giá</th>
-                    <th>Số lượng</th>
-                    <th>Thành tiền</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($cart_items as $item): 
-                    $subtotal = $item['price'] * $item['quantity'];
-                    $total += $subtotal;
-                ?>
-                <tr>
-                    <td><img src="<?= $item['image'] ?>" alt="<?= $item['name'] ?>" width="50"></td>
-                    <td><?= $item['name'] ?></td>
-                    <td><?= number_format($item['price']) ?>₫</td>
-                    <td><?= $item['quantity'] ?></td>
-                    <td><?= number_format($subtotal) ?>₫</td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+        <div class="customer-info">
+            <h2>Thông Tin Khách Hàng & Giao Hàng</h2>
+            <form action="" method="POST"> 
+                <h3>Thông tin khách hàng</h3>
+                <div class="form-group">
+                    <label for="name">Họ và Tên (*)</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Số Điện Thoại (*)</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email">
+                </div>
 
-        <div class="total">Tổng: <?= number_format($total) ?>₫</div>
+                <h3>Địa Chỉ Giao Hàng</h3>
+                <div class="form-group">
+                    <label for="province">Tỉnh/Thành phố (*)</label>
+                    <input type="text" id="province" name="province" required placeholder="Ví dụ: TP. Hồ Chí Minh">
+                </div>
+                <div class="form-group">
+                    <label for="district">Quận/Huyện (*)</label>
+                    <input type="text" id="district" name="district" required placeholder="Ví dụ: Quận 1">
+                </div>
+                <div class="form-group">
+                    <label for="ward">Phường/Xã (*)</label>
+                    <input type="text" id="ward" name="ward" required placeholder="Ví dụ: Phường Bến Nghé">
+                </div>
+                <div class="form-group">
+                    <label for="address_detail">Địa chỉ chi tiết (*)</label>
+                    <input type="text" id="address_detail" name="address_detail" required placeholder="Số nhà, tên đường/tòa nhà">
+                </div>
+                <div class="form-group">
+                    <label for="notes">Ghi chú (Tùy chọn)</label>
+                    <textarea id="notes" name="notes" rows="3"></textarea>
+                </div>
 
-        <div class="qr">
-            <p>Quét QR để thanh toán:</p>
-            <img src="../img/qr.jpg" alt="QR Payment">
+                <?php if(empty($cart_items)): ?>
+                    <p>Giỏ hàng của bạn đang trống. Vui lòng quay lại mua sắm.</p>
+                    <a href="../Trang Chủ/index.php" class="btn-back">Quay lại mua sắm</a>
+                <?php else: ?>
+                    <button type="submit" class="btn-checkout" name="checkout">HOÀN TẤT ĐẶT HÀNG</button>
+                <?php endif; ?>
+            </form>
+        </div>
+
+        <div class="cart-summary">
+            <h2>Tóm Tắt Đơn Hàng</h2>
+            
+            <?php if(empty($cart_items)): ?>
+                <?php else: ?>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hình</th>
+                            <th>Tên SP</th>
+                            <th>Giá</th>
+                            <th>SL</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($cart_items as $item): 
+                            $subtotal = $item['price'] * $item['quantity'];
+                            $total += $subtotal;
+                        ?>
+                        <tr>
+                            <td><img src="<?= $item['image'] ?>" alt="<?= $item['name'] ?>" width="50"></td>
+                            <td><?= $item['name'] ?></td>
+                            <td><?= number_format($item['price']) ?>₫</td>
+                            <td><?= $item['quantity'] ?></td>
+                            <td><?= number_format($subtotal) ?>₫</td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+
+                <div class="total">Tổng cộng: <?= number_format($total) ?>₫</div>
+                
+                <a href="../admin/cart.php" class="btn-back">Quay lại giỏ hàng</a>
+                
+            <?php endif; ?>
         </div>
     <?php endif; ?>
 </div>
 
-<!-- FOOTER -->
 <footer>
     <div class="footer-container">
 

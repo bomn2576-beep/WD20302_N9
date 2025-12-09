@@ -24,6 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             // So sánh mật khẩu
             if (password_verify($password, $hash)) {
+                $_SESSION['user_name'] = $row['ten'];   // Lấy tên người dùng để hiển thị ở header
+$_SESSION['user_id']   = $row['id'];    // (Khuyến khích)
+
                 $_SESSION["user"] = $email; // lưu session
                 header("Location:../Trang Chủ/index.php "); // chuyển sang index.php
                 exit;

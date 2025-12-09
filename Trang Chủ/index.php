@@ -14,45 +14,11 @@ include 'db.php';
 </head>
 <body>
 
-    <div class="top-bar-wrapper">
-        <div class="top-bar-links-right">
-            <a href="#">Find a Store</a>
-            <a href="#">Help</a>
-            <a href="#">Join Us</a>
-            <a href="#">Sign In</a>
-        </div>
-    </div>
-
-    <header>
-        <a href="index.php" class="logo">
-            <img src="img/z7221534069197_6c25de71b950f9ae79bfa8dceb795d4d.jpg" alt="">
-        </a>
-        <ul class="nav-links">
-            <li><a href="#">New & Featured</a></li>
-            <li><a href="#">Men</a></li>
-            <li><a href="#">Women</a></li>
-            <li><a href="#">Kids</a></li>
-            <li><a href="#">Sale</a></li>
-        </ul>
-    <div class="action-icons">
-        <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search">
-        </div>
-        
-        <a href="favorites.php">
-            <i class="fas fa-heart icon-btn" style="color: black;"></i> 
-        </a>
-        
-        <a href="cart.php"> 
-            <i class="fas fa-shopping-bag icon-btn"></i>
-        </a>
-    </div>
-    </header>
-
-    <div class="delivery-bar-wrapper">
-        Free Standard Delivery & 30-Day Free Returns | <a href="#">Join Now</a> | <a href="#">View Detail</a>
-    </div>
+    <?php
+    // --- LỆNH CHÈN NỘI DUNG TỪ FILE header.php ---
+    // Đảm bảo file header.php phải tồn tại trong cùng thư mục.
+    include '../admin/heder.php'; 
+    ?>
 
     <section class="hero">
         <div class="hero-content">
