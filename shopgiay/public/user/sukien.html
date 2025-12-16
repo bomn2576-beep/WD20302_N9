@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIZZA & PASTA - Sự Kiện Văn Hóa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background: #E6D9CE;
+        }
+        
+         /* Top Banner */
+         .top-banner {
+            background-color: #3D3934;
+            color: white;
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 13px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .top-banner a {
+            color: white;
+            text-decoration: underline;
+            margin-left: 10px;
+        }
+
+        /* Header */
+        .header {
+            background-color: #C4B5A8;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: #3D3934;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            overflow: hidden;
+        }
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;  
+        }
+
+        .brand-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #3D3934;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin-left: 50px;
+        }
+
+        .nav-menu a {
+            color: #3D3934;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #8B7355;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-btn {
+            background: transparent;
+            color: #3D3934;
+            border: 1px solid #3D3934;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .auth-btn:hover {
+            background: #3D3934;
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .social-icon.facebook {
+            background: #1877F2;
+            color: white;
+        }
+
+        .social-icon.zalo {
+            background: #0068FF;
+            color: white;
+        }
+
+        .social-icon.phone {
+            background: #E53935;
+            color: white;
+        }
+        
+        .submenu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background: #D9D9D9;
+        }
+        
+        .policy-item {
+            font-size: 13px;
+            color: #333;
+        }
+        
+        .hotline {
+            font-size: 14px;
+            color: #E91E63;
+            font-weight: bold;
+        }
+        
+        /* Hero Section - Vietnam Culture */
+        .hero-vietnam {
+            background: #E6BEB3;
+            padding: 80px 50px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .hero-content h1 {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero-content h2 {
+            font-size: 28px;
+            color: #8B4513;
+            margin-bottom: 25px;
+        }
+        
+        .hero-content p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .hero-image {
+            position: relative;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .floating-images {
+            position: absolute;
+        }
+        
+        .floating-img {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .floating-img:nth-child(1) {
+            top: -20px;
+            right: -30px;
+        }
+        
+        .floating-img:nth-child(2) {
+            top: 40%;
+            right: -40px;
+        }
+        
+        .floating-img:nth-child(3) {
+            bottom: 50px;
+            right: -30px;
+        }
+        
+        /* Culture Event Card */
+        .culture-event {
+            background: #8B6B47;
+            padding: 60px 50px;
+            margin: 40px auto;
+            max-width: 1400px;
+            border-radius: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .event-visual {
+            position: relative;
+        }
+        
+        .event-visual img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        
+        .event-info {
+            color: white;
+        }
+        
+        .event-info h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .event-info h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #FFD700;
+        }
+        
+        .event-info p {
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .event-details {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        /* Malaysia Event */
+        .malaysia-event {
+            background: #8B4513;
+            padding: 60px 50px;
+            margin: 40px auto;
+            max-width: 1400px;
+            border-radius: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .malaysia-visual {
+            text-align: center;
+            color: white;
+        }
+        
+        .malaysia-visual h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .malaysia-visual .subtitle {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        
+        .landmarks {
+            position: relative;
+            height: 300px;
+        }
+        
+        .landmark-icon {
+            position: absolute;
+            color: #FFD700;
+            font-size: 80px;
+        }
+        
+        /* American Event */
+        .american-event {
+            background: #E6BEB3;
+            padding: 60px 50px;
+            margin: 40px auto;
+            max-width: 1400px;
+            border-radius: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .american-content h2 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .american-content p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .american-visual {
+            position: relative;
+        }
+        
+        .american-visual img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .america-logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        /* Community Section */
+        .community-section {
+            background: #DDD6CB;
+            padding: 50px 0;
+            text-align: center;
+        }
+        
+        .community-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .community-section p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .subscribe-form {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr auto;
+            gap: 10px;
+        }
+        
+        .subscribe-form input {
+            padding: 12px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 13px;
+            background: white;
+        }
+        
+        .subscribe-form button {
+            padding: 12px 25px;
+            background: #382F24;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .subscribe-form button:hover {
+            background: #4A4037;
+        }
+        
+        .subscribe-note {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #DDD6CB;
+            color: #333;
+            padding: 40px 0 0;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 50px 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .footer-section p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
+        .footer-social-icon {
+            width: 35px;
+            height: 35px;
+            background: #666;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        
+        .footer-social-icon:hover {
+            background: #333;
+        }
+        
+        .footer-bottom {
+            background: #382F24;
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        @media (max-width: 968px) {
+            .hero-vietnam,
+            .culture-event,
+            .malaysia-event,
+            .american-event {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .subscribe-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .submenu {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+       <!-- Header -->
+       <div class="top-banner">
+        <span>NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BẠN QUA</span>
+        <a href="#">FANPAGE</a>
+    </div>
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <div class="logo-circle"><img src="img/logo.jpg" alt=""></div>
+            </div>
+            <div class="brand-name">PIZZA &<br>PASTA</div>
+            <ul class="nav-menu">
+                <li><a href="chungtoi.html">Về Chúng Tôi</a></li>
+                <li><a href="poducts.html">Thực Đơn</a></li>
+                <li><a href="sukien.html">Sự Kiện</a></li>
+                <li><a href="baochi.html">Báo Chí</a></li>
+                <li><a href="datban.html">Đặt Bàn</a></li>
+                <li><a href="contact.html">Liên Hệ</a></li>
+            </ul>
+        </div>
+        <div class="header-right">
+            <div class="auth-buttons">
+                <a href="login.html" class="auth-btn">Đăng Nhập</a>
+                <a href="sign_in.html" class="auth-btn">Đăng Ký</a>
+            </div>
+            <div class="social-icons">
+                <div class="social-icon facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+                <div class="social-icon zalo">
+                    <span style="font-weight: bold; font-size: 18px;">Z</span>
+                </div>
+                <div class="social-icon phone">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Vietnam Section -->
+    <section class="hero-vietnam">
+        <div class="hero-content">
+            <h1>TALES & TASTES<br>OF<br>VIETNAM</h1>
+            <p>Tales & Tastes of Vietnam với câu chuyện hương thơm chính ấn tượng về những hương vị truyền thống Việt Nam, nơi từng món ăn không chỉ là thức ăn mà còn là một phần của di sản văn hóa độc đáo và phong phú của đất nước Việt.</p>
+            <p>Lần sắc này chuyến tham giới Việt Nam làm của các món ấn tượng nhà món ăn nổi tiếng được lưu truyền qua nhiều thế hệ với những câu chuyện kể lại và những công thức ẩm thực độc đáo được lưu truyền trong gia đình của từng nền văn hóa độc đáo của chúng ta và đất nước Việt.</p>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=600" alt="Vietnamese Food">
+            <div class="floating-images">
+                <img src="https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=100" alt="Tomato" class="floating-img">
+                <img src="https://images.unsplash.com/photo-1608039829572-78524f79c4c7?w=100" alt="Garlic" class="floating-img">
+                <img src="https://images.unsplash.com/photo-1587735243475-46e3241c9a62?w=100" alt="Spices" class="floating-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Culture Night Japan -->
+    <section class="culture-event">
+        <div class="event-visual">
+            <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?w=600" alt="Japanese Wave">
+        </div>
+        <div class="event-info">
+            <h2>Culture Night</h2>
+            <h3>Japan</h3>
+            <p>Nhâm mong các để những nâm két hợp đền thước lầu của nhà Việt Nam và nha giật chính lễ hội y nghĩa Culture Night (Đêm Văn Hóa) được tổ chức từ đầu thương niệm văn hóa mạc của công ty mà sự kiện này sẽ mang lại.</p>
+            <p>Đặc biệt với thể kiện Lễn thể công nhà Nhật Bản của chúng ta đã với sự ấm kèm tại đồ của nhà tếp của mẹ và trảo đồng nhà Nhật thể trước nhân những từ nẵng kế liên mạng yến chiếc sự tảng thế món và mạy chủm viêm.</p>
+            <div class="event-details">
+                <div class="detail-row">
+                    <span>Thời gian:</span>
+                    <span>19:00 - 22:00</span>
+                </div>
+                <div class="detail-row">
+                    <span>Địa điểm:</span>
+                    <span>Pizza & Pasta Restaurant</span>
+                </div>
+                <div class="detail-row">
+                    <span>Giá vé:</span>
+                    <span>500,000 VNĐ</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Culture Night Malaysia -->
+    <section class="malaysia-event">
+        <div class="malaysia-visual">
+            <h2>CULTURE NIGHT</h2>
+            <div class="subtitle">MALAYSIA</div>
+            <p style="font-size: 12px; margin-bottom: 30px;">MICHELIN GUIDE</p>
+            <div class="landmarks">
+                <div style="text-align: center; color: #FFD700;">
+                    <div style="font-size: 60px;">🕌</div>
+                    <div style="font-size: 60px; margin-top: 20px;">🏢</div>
+                </div>
+            </div>
+        </div>
+        <div class="event-info">
+            <h2>Culture Night</h2>
+            <h3>Malaysia</h3>
+            <p>Văn vắp nắng ở của chuyêu xứ kển Culture Night (Đêm Văn Hóa) thân thực hiên đeo kém những kéo động sẽ của trình làm vương nước với trách ly đã giới nhất từ các nước.</p>
+            <p>Vỳ sư ảnh mũi cần đỗ với củ quả từa nhằng tỉ với Wordfestate là, Malaysia, chúng tôi hạy như lý thung các thành tỉnh là nghệm từ các những tự cả của đồng văn hoạc mộng như dương tự ngứi những của nước.</p>
+        </div>
+    </section>
+
+    <!-- American Culture Night -->
+    <section class="american-event">
+        <div class="american-content">
+            <h2>American<br>Culture Night</h2>
+            <p>Tiêu mở cược lẫy kinh Culture Night (Đêm Văn Hóa) thểm Ốn nhôm Vỹn ảnh vớn câu từng đổ Phùng văn lôn lý văn bốc văn lâm ảm từng với các món ảnh từ các nước trên các miền như đứ được thể sẽ văn</p>
+            <p>Đến với sự kiện này của Phởm & Bistahi, thực khách được trải nghiệm tỷ sâu những từ các khắc giới được từ thạm chủ của với nhưng như những tả chấn cao đòng của từng nếu rất tới với từ đệm được bỏ nhường và vào thôm.</p>
+            <p>Qua trục đón đặc biết lần này, họi một hàng trong món truyện tể sâu gọi sám các trực gián từng được từng nhìa với chế mạch nọi ràng sao của vật văn chọng giới mời khủr mông này cử từng mê gửi đả dung vỹ và thành một kỹ riến.</p>
+        </div>
+        <div class="american-visual">
+            <img src="https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=600" alt="Statue of Liberty">
+            <div class="america-logo" style="font-size: 24px; color: #DC143C;">
+                Culture Night<br>
+                <span style="font-size: 32px; font-weight: bold;">AMERICA</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="community-section">
+        <div class="container">
+            <h2>THAM GIA CỘNG ĐỒNG CỦA CHÚNG TÔI</h2>
+            <p>Đăng ký để nhận thông tin khuyến mại mới nhất về Thực Đơn, Ưu Đãi, Tin Tức và Sự Kiện của chúng tôi</p>
+            <form class="subscribe-form">
+                <input type="text" placeholder="Tên">
+                <input type="text" placeholder="Họ">
+                <input type="email" placeholder="Địa chỉ Email của bạn">
+                <button type="submit">ĐĂNG KÝ</button>
+            </form>
+            <p class="subscribe-note">Mọi thông tin được bảo mật theo chính sách của chúng tôi<br>Bạn có thể hủy đăng ký bất cứ lúc nào.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>ĐỊA CHỈ</h3>
+                <p>24 Nguyễn Thị Nghĩa,</p>
+                <p>Phường Bến Thành, Quận 1,</p>
+                <p>TP.HCM, Việt Nam</p>
+            </div>
+            <div class="footer-section">
+                <h3>GIỜ MỞ CỬA</h3>
+                <p>Thứ Hai – Chủ Nhật</p>
+                <p>10:00 – 23:00</p>
+            </div>
+            <div class="footer-section">
+                <h3>LIÊN HỆ</h3>
+                <p>contact@pizzapasta.vn</p>
+                <p>+84 162 389 6980</p>
+            </div>
+            <div class="footer-section">
+                <h3>THEO DÕI CHÚNG TÔI</h3>
+                <div class="footer-social">
+                    <a href="#" class="footer-social-icon">f</a>
+                    <a href="#" class="footer-social-icon">in</a>
+                    <a href="#" class="footer-social-icon">▶</a>
+                    <a href="#" class="footer-social-icon">📧</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© Copyright 2024. All rights reserved</p>
+        </div>
+    </footer>
+</body>
+</html>
