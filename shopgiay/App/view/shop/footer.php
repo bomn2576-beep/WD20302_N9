@@ -55,7 +55,7 @@
                 <a href="#">Find A Store</a>
                 <a href="#">Become A Member</a>
                 <a href="#">Running Shoe Finder</a>
-                <a href="#">Nike Coaching</a>
+                <a href="#">PKD Coaching</a>
                 <a href="#">Send Us Feedback</a>
             </div>
             
@@ -71,7 +71,7 @@
             
             <div class="col-md-3 col-sm-6 mb-4">
                 <h6>Company</h6>
-                <a href="#">About Nike</a>
+                <a href="#">About PKD</a>
                 <a href="#">News</a>
                 <a href="#">Careers</a>
                 <a href="#">Investors</a>
@@ -86,13 +86,13 @@
         </div>
 
         <div class="footer-bottom d-flex flex-column flex-md-row align-items-md-center">
-            <span class="mb-3 mb-md-0">© 2025 Nike, Inc. All rights reserved</span>
+            <span class="mb-3 mb-md-0">© 2025 PKD, Inc. All rights reserved</span>
             
             <div class="footer-bottom-links ms-md-auto">
                 <a href="#">Guides <i class="bi bi-chevron-down ms-1"></i></a>
                 <a href="#">Terms of Sale</a>
                 <a href="#">Terms of Use</a>
-                <a href="#">Nike Privacy Policy</a>
+                <a href="#">PKD Privacy Policy</a>
             </div>
         </div>
     </div>
