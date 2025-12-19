@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Tài khoản Nike của bạn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; }
+        .sidebar-link { padding: 10px 0; display: block; color: #707072; text-decoration: none; font-weight: 500; }
+        .sidebar-link.active { color: #111; border-left: 2px solid #000; padding-left: 10px; }
+        .order-card { border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        .btn-nike-outline { border: 1px solid #e5e5e5; border-radius: 20px; padding: 5px 20px; font-weight: 500; background: #fff; }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-3">
+                <h4 class="fw-bold mb-4">Tài khoản</h4>
+                <a href="#" class="sidebar-link active">Đơn hàng</a>
+                <a href="#" class="sidebar-link">Yêu thích</a>
+                <a href="#" class="sidebar-link">Cài đặt hồ sơ</a>
+                <a href="login.html" class="sidebar-link text-danger mt-4">Đăng xuất</a>
+            </div>
+
+            <div class="col-md-9">
+                <h3 class="fw-bold mb-4">Đơn hàng của bạn</h3>
+                
+                <div class="order-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge bg-dark">Đang giao hàng</span>
+                        <span class="text-secondary small">Mã đơn: #NIKE-998811</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <img src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/b7d9211c-26e7-431a-ac24-b0540fb3c00f/AIR+FORCE+1+%2707.png" width="100" class="bg-light me-3">
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold mb-1">Nike Air Force 1 '07</h6>
+                            <p class="text-secondary small mb-1">Size: 42.5 | Số lượng: 1</p>
+                            <p class="fw-bold">2.929.000₫</p>
+                        </div>
+                        <button class="btn-nike-outline">Chi tiết</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

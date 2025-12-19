@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trở thành Thành viên Nike</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #fff; }
+        .register-container { max-width: 420px; margin: 60px auto; padding: 0 20px; }
+        .nike-logo { width: 60px; margin-bottom: 30px; }
+        .title { font-size: 28px; font-weight: 700; line-height: 1.2; margin-bottom: 25px; letter-spacing: -1px; }
+        
+        .form-control { 
+            padding: 16px; border-radius: 4px; border: 1px solid #e5e5e5; 
+            margin-bottom: 15px; font-size: 16px; 
+        }
+        .form-control:focus { border-color: #111; box-shadow: none; }
+        
+        /* Gender Selection - Đặc trưng trang đăng ký Nike */
+        .gender-selection { display: flex; gap: 10px; margin-bottom: 20px; }
+        .gender-item { 
+            flex: 1; border: 1px solid #e5e5e5; padding: 12px; 
+            border-radius: 4px; cursor: pointer; text-align: center; transition: 0.2s;
+        }
+        .gender-item:hover { border-color: #111; }
+        .gender-item.active { border-color: #111; font-weight: bold; }
+
+        .terms-text { font-size: 13px; color: #707072; margin-bottom: 25px; line-height: 1.5; text-align: left; }
+        .terms-text a { color: #111; text-decoration: underline; font-weight: 500; }
+        
+        .btn-black { 
+            background: #111; color: #fff; width: 100%; padding: 16px; 
+            border-radius: 4px; font-weight: bold; border: none; text-transform: uppercase;
+        }
+        .btn-black:hover { background: #333; }
+        
+        .login-link { margin-top: 30px; font-size: 14px; text-align: center; }
+        .login-link a { color: #111; font-weight: 700; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="register-container text-center">
+        <svg class="nike-logo" viewBox="0 0 24 24" fill="#111"><path d="M21 8.719L7.836 14.303C6.74 14.768 5.818 15 5.075 15c-.836 0-1.445-.295-1.819-.884-.485-.76-.273-1.982.559-3.272.494-.754 1.122-1.446 1.734-2.108-.144.234-1.415 2.349-.025 3.345.275.2.666.298 1.147.298.386 0 .829-.063 1.316-.19L21 8.719z"></path></svg>
+        
+        <h2 class="title text-uppercase">TRỞ THÀNH THÀNH VIÊN NIKE</h2>
+        
+        <p class="text-secondary small mb-4" style="line-height: 1.6;">Tạo hồ sơ Thành viên Nike của bạn và nhận quyền truy cập sớm vào các sản phẩm, nguồn cảm hứng và cộng đồng tốt nhất.</p>
+
+        <form>
+            <input type="email" class="form-control" placeholder="Địa chỉ Email" required>
+            <input type="password" class="form-control" placeholder="Mật khẩu" required>
+            <input type="text" class="form-control" placeholder="Họ và Tên" required>
+            <input type="date" class="form-control" placeholder="Ngày sinh">
+            
+            <div class="gender-selection">
+                <div class="gender-item">Nam</div>
+                <div class="gender-item">Nữ</div>
+            </div>
+            
+            <p class="terms-text">
+                Bằng cách tạo tài khoản, bạn đồng ý với <a href="#">Chính sách Bảo mật</a> và <a href="#">Điều khoản Sử dụng</a> của Nike.
+            </p>
+            
+            <button type="submit" class="btn-black">Đăng ký ngay</button>
+        </form>
+
+        <div class="login-link">
+            Đã là Thành viên? <a href="login.html">Đăng nhập.</a>
+        </div>
+    </div>
+
+    <script>
+        // Script nhỏ để xử lý chọn giới tính cho đẹp
+        const genderItems = document.querySelectorAll('.gender-item');
+        genderItems.forEach(item => {
+            item.addEventListener('click', () => {
+                genderItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
