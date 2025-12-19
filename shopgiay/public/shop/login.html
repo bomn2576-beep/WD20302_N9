@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập vào Nike</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; }
+        .login-container { max-width: 420px; margin: 100px auto; padding: 0 20px; }
+        .nike-logo { width: 60px; margin-bottom: 30px; }
+        .title { font-size: 28px; font-weight: 700; line-height: 1.2; margin-bottom: 30px; letter-spacing: -1px; }
+        
+        .form-control { 
+            padding: 16px; border-radius: 4px; border: 1px solid #e5e5e5; 
+            margin-bottom: 15px; font-size: 16px; 
+        }
+        .form-control:focus { border-color: #111; box-shadow: none; }
+        
+        .terms-text { font-size: 13px; color: #707072; margin-bottom: 25px; line-height: 1.5; }
+        .terms-text a { color: #111; text-decoration: underline; font-weight: 500; }
+        
+        .btn-black { 
+            background: #111; color: #fff; width: 100%; padding: 16px; 
+            border-radius: 4px; font-weight: bold; border: none; text-transform: uppercase;
+        }
+        .btn-black:hover { background: #333; }
+        
+        .register-link { margin-top: 30px; font-size: 14px; }
+        .register-link a { color: #111; font-weight: 700; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="login-container text-center">
+        <svg class="nike-logo" viewBox="0 0 24 24" fill="#111"><path d="M21 8.719L7.836 14.303C6.74 14.768 5.818 15 5.075 15c-.836 0-1.445-.295-1.819-.884-.485-.76-.273-1.982.559-3.272.494-.754 1.122-1.446 1.734-2.108-.144.234-1.415 2.349-.025 3.345.275.2.666.298 1.147.298.386 0 .829-.063 1.316-.19L21 8.719z"></path></svg>
+        
+        <h2 class="title text-uppercase">Nhập Email để đăng nhập hoặc tạo tài khoản</h2>
+        
+        <form>
+            <input type="email" class="form-control" placeholder="Email" required>
+            <input type="password" class="form-control" placeholder="Mật khẩu" required>
+            
+            <p class="terms-text text-start">
+                Bằng cách tiếp tục, bạn đồng ý với <a href="#">Chính sách Bảo mật</a> và <a href="#">Điều khoản Sử dụng</a> của Nike.
+            </p>
+            
+            <button type="submit" class="btn-black">Tiếp tục</button>
+        </form>
+
+        <div class="register-link">
+            Chưa có tài khoản? <a href="register.html">Đăng ký ngay.</a>
+        </div>
+    </div>
+
+</body>
+</html>
