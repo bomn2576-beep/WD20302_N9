@@ -49,4 +49,8 @@ class ProductController {
         extract($data);
         include ROOT_PATH . 'App/View/shop/main.php'; // Đảm bảo đúng đường dẫn main.php
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/duczipro
