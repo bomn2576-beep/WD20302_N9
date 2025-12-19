@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nike. Just Do It. Nike VN</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        :root { --nike-black: #111; }
+        body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--nike-black); overflow-x: hidden; }
+
+        /* Carousel Banner */
+        .carousel-item { height: 75vh; min-height: 450px; background-color: #f5f5f5; }
+        .carousel-item img { object-fit: cover; height: 100%; width: 100%; }
+        
+        /* Hero Content (Phần thông điệp trung tâm giống mẫu bạn gửi) */
+        .hero-content-center { padding: 48px 20px; text-align: center; }
+        .hero-content-center h1 { font-size: 72px; font-weight: 900; line-height: 1; letter-spacing: -2px; margin-bottom: 15px; text-transform: uppercase; }
+        .hero-content-center p { font-size: 18px; margin-bottom: 25px; }
+        .btn-nike-dark { background: #111; color: #fff; border-radius: 30px; padding: 8px 24px; font-weight: 500; text-decoration: none; border: none; transition: 0.3s; }
+        .btn-nike-dark:hover { background: #444; }
+
+        /* Section Headlines */
+        .section-title { font-size: 24px; font-weight: 500; margin: 40px 48px 20px 48px; }
+        .content-wrapper { padding: 0 48px; }
+
+        /* Featured Cards */
+        .featured-card { position: relative; overflow: hidden; height: 550px; cursor: pointer; }
+        .featured-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .featured-card:hover img { transform: scale(1.03); }
+        .featured-text { position: absolute; bottom: 40px; left: 40px; color: #fff; }
+        .btn-nike-white { background: #fff; color: #111; border-radius: 30px; padding: 6px 20px; font-weight: 600; text-decoration: none; }
+
+        /* Product Slider Custom */
+.product-slider-container { padding: 40px 48px; }
+.slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.slider-header h3 { font-size: 24px; font-weight: 500; margin: 0; }
+.slider-controls button {
+    background: #f5f5f5; border: none; border-radius: 50%;
+    width: 48px; height: 48px; transition: 0.3s;
+}
+.slider-controls button:hover { background: #e5e5e5; }
+
+.product-item { border: none; cursor: pointer; }
+.product-item img { 
+    background-color: #f6f6f6; width: 100%; transition: opacity 0.3s;
+}
+.product-item:hover img { opacity: 0.7; }
+.product-details { padding: 12px 0; }
+.product-details h6 { font-weight: 600; margin: 0; font-size: 16px; }
+.product-category { color: #707072; font-size: 14px; }
+.product-price { font-weight: 500; margin-top: 8px; }
+
+/* Sport Slider Styles */
+.sport-slider-container { padding: 40px 48px; }
+.sport-card { border: none; background: #fff; transition: 0.3s; }
+.sport-card img { 
+    width: 100%; 
+    height: 300px; 
+    object-fit: cover; 
+    transition: 0.5s;
+}
+.sport-card:hover img { opacity: 0.8; }
+.sport-body { padding: 20px 0; }
+.sport-body h5 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+.sport-body .btn-shop { 
+    color: #111; 
+    text-decoration: underline; 
+    font-weight: 600; 
+    font-size: 16px; 
+}
+.sport-body .btn-shop:hover { color: #707072; }
+
+
+/* Shop by Icons Custom */
+.icons-slider-container { padding: 40px 48px; }
+.icon-card { 
+    border: none; 
+    border-radius: 12px; /* Bo góc mạnh theo mẫu */
+    overflow: hidden;
+    background: linear-gradient(to bottom, #f5f5f5 0%, #bdc3c7 100%); /* Gradient xám */
+    transition: 0.3s;
+    cursor: pointer;
+    text-align: center;
+}
+.icon-card:hover { transform: translateY(-5px); }
+.icon-card img { 
+    width: 100%; 
+    height: auto; 
+    padding: 20px; /* Tạo khoảng trống cho sản phẩm */
+}
+.icon-name { 
+    padding: 15px 0; 
+    font-weight: 600; 
+    font-size: 18px; 
+    color: #111; 
+}
+    </style>
+</head>
+<body>
+
+    <div id="nikeHeroCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://static.nike.com/a/images/f_auto/dpr_2.0/w_1229,c_limit/6f8872e4-e0c4-42f8-9366-419b64686411/nike-just-do-it.png" alt="Banner 1">
+            </div>
+            <div class="carousel-item">
+                <img src="https://static.nike.com/a/images/f_auto/dpr_2.0/w_1229,c_limit/e394025a-4b71-419c-9c7a-59d040a4632c/nike-just-do-it.png" alt="Banner 2">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#nikeHeroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#nikeHeroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+
+    <div class="hero-content-center">
+        <p class="fw-bold mb-2">New Arrival</p>
+        <h1>POWER THEIR NEXT REP</h1>
+        <p>Gift the latest gear to help them set a new personal best.</p>
+        <div class="d-flex justify-content-center gap-2">
+            <a href="category.html" class="btn-nike-dark">Shop Training</a>
+            <a href="#" class="btn-nike-dark">Watch <i class="bi bi-play-fill"></i></a>
+        </div>
+    </div>
+
+    <h3 class="section-title">Featured</h3>
+    <div class="content-wrapper">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="featured-card">
+                    <img src="https://static.nike.com/a/images/f_auto/dpr_2.0/w_588,c_limit/d2f66453-2c1b-4d43-982c-29d91f4f5d22/nike-just-do-it.png" alt="">
+                    <div class="featured-text">
+                        <p class="mb-1">Jordan</p>
+                        <h4 class="fw-bold mb-3">AJ1 'Lost & Found'</h4>
+                        <a href="chitiet.html" class="btn-nike-white">Shop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="featured-card">
+                    <img src="https://static.nike.com/a/images/f_auto/dpr_2.0/w_588,c_limit/41012b18-971c-4e76-8515-385a8553d100/nike-just-do-it.jpg" alt="">
+                    <div class="featured-text">
+                        <p class="mb-1">Luyện tập</p>
+                        <h4 class="fw-bold mb-3">Nike Training Gear</h4>
+                        <a href="category.html" class="btn-nike-white">Shop</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="product-slider-container">
+    <div class="slider-header">
+        <h3>Refresh Your Sneaker Rotation</h3>
+        <div class="slider-controls d-none d-md-flex gap-2">
+            <button><i class="bi bi-chevron-left fs-5"></i></button>
+            <button><i class="bi bi-chevron-right fs-5"></i></button>
+        </div>
+    </div>
+    
+    <div class="row g-3">
+        <div class="col-6 col-md-4">
+            <div class="product-item">
+                <img src="https://static.nike.com/a/images/q_auto:eco/t_product_v1/f_auto/dpr_2.0/w_440,c_limit/6f8872e4-e0c4-42f8-9366-419b64686411/air-jordan-1-brooklyn-womens-boots-8Fv3fX.png" alt="Air Jordan 1 Brooklyn">
+                <div class="product-details text-start">
+                    <h6>Air Jordan 1 Brooklyn</h6>
+                    <p class="product-category mb-0">Women's Boots</p>
+                    <p class="product-price">4,849,000₫</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-4">
+            <div class="product-item">
+                <img src="https://static.nike.com/a/images/q_auto:eco/t_product_v1/f_auto/dpr_2.0/w_440,c_limit/e394025a-4b71-419c-9c7a-59d040a4632c/nike-cortez-leather-womens-shoes-ST6XhT.png" alt="Nike Cortez Leather">
+                <div class="product-details text-start">
+                    <h6>Nike Cortez Leather</h6>
+                    <p class="product-category mb-0">Women's Shoes</p>
+                    <p class="product-price">3,519,000₫</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-4">
+            <div class="product-item">
+                <img src="https://static.nike.com/a/images/q_auto:eco/t_product_v1/f_auto/dpr_2.0/w_440,c_limit/d2f66453-2c1b-4d43-982c-29d91f4f5d22/nike-cortez-textile-womens-shoes-P1G7Cj.png" alt="Nike Cortez Textile">
+                <div class="product-details text-start">
+                    <h6>Nike Cortez Textile</h6>
+                    <p class="product-category mb-0">Women's Shoes</p>
+                    <p class="product-price">2,649,000₫</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+   <div class="sport-slider-container">
+    <div class="slider-header d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold fs-4">Shop by Sport</h3>
+        <div class="slider-controls d-none d-md-flex gap-2">
+            <button class="btn btn-light rounded-circle border"><i class="bi bi-chevron-left"></i></button>
+            <button class="btn btn-light rounded-circle border"><i class="bi bi-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-6 col-md-3">
+            <div class="sport-card">
+                <img src="https://static.nike.com/a/images/f_auto/dpr_2.0/w_588,c_limit/d2f66453-2c1b-4d43-982c-29d91f4f5d22/nike-just-do-it.png" alt="Trail Running">
+                <div class="sport-body">
+                    <h5>Trail Running</h5>
+                    <a href="category.html" class="btn-shop">Shop</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <div class="sport-card">
+                <img src="https://static.nike.com/a/images/f_auto/dpr_2.0/w_588,c_limit/41012b18-971c-4e76-8515-385a8553d100/nike-just-do-it.jpg" alt="Football">
+                <div class="sport-body">
+                    <h5>Football</h5>
+                    <a href="category.html" class="btn-shop">Shop</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <div class="sport-card">
+                <img src="https://static.nike.com/a/images/f_auto/dpr_2.0/w_588,c_limit/6f8872e4-e0c4-42f8-9366-419b64686411/nike-just-do-it.png" alt="Basketball">
+                <div class="sport-body">
+                    <h5>Basketball</h5>
+                    <a href="category.html" class="btn-shop">Shop</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <div class="sport-card">
+                <img src="https://static.nike.com/a/images/f_auto/dpr_2.0/w_588,c_limit/e394025a-4b71-419c-9c7a-59d040a4632c/nike-just-do-it.png" alt="Running">
+                <div class="sport-body">
+                    <h5>Running</h5>
+                    <a href="category.html" class="btn-shop">Shop</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="icons-slider-container">
+    <div class="slider-header d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold fs-4">Shop by Icons</h3>
+        <div class="slider-controls d-none d-md-flex gap-2">
+            <button class="btn btn-light rounded-circle border"><i class="bi bi-chevron-left"></i></button>
+            <button class="btn btn-light rounded-circle border"><i class="bi bi-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-6 col-md">
+            <div class="icon-card">
+                <img src="https://static.nike.com/a/images/q_auto:eco/t_product_v1/f_auto/dpr_2.0/w_300,c_limit/u_126ab356-44d8-4a06-89b4-fcdcc8df0245,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/927435f3-529a-47c3-a3d8-552d7e89e02c/dunk-low-retro-shoes-69Vv9k.png" alt="Dunk">
+                <div class="icon-name">Dunk</div>
+            </div>
+        </div>
+        <div class="col-6 col-md">
+            <div class="icon-card">
+                <img src="https://static.nike.com/a/images/q_auto:eco/t_product_v1/f_auto/dpr_2.0/w_300,c_limit/d58309e0-05e8-42f0-9366-419b64686411/killshot-2-leather-shoes-zrq192.png" alt="Killshot">
+                <div class="icon-name">Killshot</div>
+            </div>
+        </div>
+        <div class="col-6 col-md">
+            <div class="icon-card">
+                <img src="https://static.nike.com/a/images/q_auto:eco/t_product_v1/f_auto/dpr_2.0/w_300,c_limit/e394025a-4b71-419c-9c7a-59d040a4632c/nike-cortez-leather-womens-shoes-ST6XhT.png" alt="Cortez">
+                <div class="icon-name">Cortez</div>
+            </div>
+        </div>
+        <div class="col-6 col-md">
+            <div class="icon-card">
+                <img src="https://static.nike.com/a/images/q_auto:eco/t_product_v1/f_auto/dpr_2.0/w_300,c_limit/33d39580-0a25-4ac6-943f-84d4127027ae/air-jordan-1-low-shoes-469507.png" alt="Air Jordan 1">
+                <div class="icon-name">Air Jordan 1</div>
+            </div>
+        </div>
+        <div class="col-6 col-md">
+            <div class="icon-card">
+                <img src="https://static.nike.com/a/images/q_auto:eco/t_product_v1/f_auto/dpr_2.0/w_300,c_limit/b7d9211c-26e7-431a-ac24-b0540fb3c00f/air-force-1-07-shoes-Wr0Q19.png" alt="Air Force 1">
+                <div class="icon-name">Air Force 1</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
