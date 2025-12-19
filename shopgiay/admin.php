@@ -63,7 +63,7 @@ if ($page == 'update_product' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Nike Admin Portal</title>
+    <title>PKD Admin Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
@@ -79,7 +79,7 @@ if ($page == 'update_product' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 
 <div class="sidebar">
-    <div class="px-4 mb-4"><h4 class="fw-bold">NIKE ADMIN</h4></div>
+    <div class="px-4 mb-4"><h4 class="fw-bold">PKD ADMIN</h4></div>
     <nav class="nav flex-column">
         <a href="admin.php?page=dashboard" class="nav-link <?= $page == 'dashboard' ? 'active' : '' ?>"><i class="bi bi-speedometer2"></i> Tổng quan</a>
         <a href="admin.php?page=products" class="nav-link <?= ($page == 'products' || $page == 'add_product' || $page == 'edit_product') ? 'active' : '' ?>"><i class="bi bi-box-seam"></i> Quản lý sản phẩm</a>

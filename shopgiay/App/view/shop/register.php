@@ -58,7 +58,7 @@
 <div class="register-container px-3">
     <svg class="swoosh" viewBox="0 0 24 24" fill="#111"><path d="M21 8.719L7.836 14.303C6.74 14.768 5.818 15 5.075 15c-.836 0-1.445-.295-1.819-.884-.485-.76-.273-1.982.559-3.272.494-.754 1.122-1.446 1.734-2.108-.144.234-1.415 2.349-.025 3.345.275.2.666.298 1.147.298.386 0 .829-.063 1.316-.19L21 8.719z"></path></svg>
     
-    <h2>BECOME A NIKE MEMBER</h2>
+    <h2>BECOME A PKD MEMBER</h2>
     <p class="sub-text">Create your Nike Member profile and get first access to the very best of Nike products, inspiration and community.</p>
 
     <?php if (isset($_GET['error']) && $_GET['error'] === 'duplicate_email'): ?>
@@ -83,7 +83,7 @@
         </select>
 
         <p class="terms-text">
-            By creating an account, you agree to Nike's <a href="#">Privacy Policy</a> and <a href="#">Terms of Use</a>.
+            By creating an account, you agree to PKD's <a href="#">Privacy Policy</a> and <a href="#">Terms of Use</a>.
         </p>
 
         <button type="submit" class="btn-register">Join Us</button>

@@ -46,7 +46,7 @@
                 <img src="https://static.nike.com/a/images/f_auto/dpr_1.0,cs_srgb/h_1320,c_limit/2ff2dcf8-5cf0-48e6-a57a-ab3358054565/nike-just-do-it.png" class="w-100 h-100 object-fit-cover" alt="">
                 <div class="position-absolute bottom-0 left-0 p-5 text-white">
                     <p class="mb-1">Luyện tập</p>
-                    <h4 class="fw-bold mb-3">Nike Training Gear</h4>
+                    <h4 class="fw-bold mb-3">PKD Training Gear</h4>
                     <a href="#" class="btn btn-light rounded-pill px-4 fw-bold">Shop</a>
                 </div>
             </div>

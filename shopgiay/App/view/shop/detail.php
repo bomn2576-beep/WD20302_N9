@@ -31,7 +31,7 @@
 
         <div class="col-md-5 product-info">
             <h3 class="fw-bold mb-1"><?= $product['ten_san_pham'] ?></h3>
-            <p class="text-secondary mb-3">Shoes | Nike Icons</p>
+            <p class="text-secondary mb-3">Shoes | PKD Icons</p>
             <h4 class="fw-bold mb-4"><?= number_format($product['gia_ban'], 0, ',', '.') ?>₫</h4>
 
             <div class="size-selection">

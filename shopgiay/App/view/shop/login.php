@@ -5,7 +5,7 @@
 </style>
 
 <div class="login-container">
-    <h2 class="text-center fw-bold mb-4">YOUR ACCOUNT FOR EVERYTHING NIKE</h2>
+    <h2 class="text-center fw-bold mb-4">YOUR ACCOUNT FOR EVERYTHING PKD</h2>
 
     <?php if (isset($_GET['error'])): ?>
         <div class="alert-nike">
