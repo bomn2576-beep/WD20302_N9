@@ -1,29 +1,21 @@
-
 <?php
+// app/config/database.php
 
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', ''); 
-define('DB_NAME', 'wd20302_n5_local'); 
-/**
- * Hàm khởi tạo và trả về đối tượng kết nối PDO
- * @return PDO
- */
 function getConnection() {
-   
-    $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
-    $options = [
-        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, 
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,     
-        PDO::ATTR_EMULATE_PREPARES   => false,
-    ];
-    
+    $host = "localhost";
+    $db_name = "wd20302_n9_local";
+    $username = "root";
+    $password = "";
+
     try {
-        $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
-        return $pdo;
-    } catch (\PDOException $e) {
-       
-        die("Lỗi kết nối CSDL: " . $e->getMessage());
+        $conn = new PDO("mysql:host=" . $host . ";dbname=" . $db_name, $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        // Thiết kế để trả về kết nối chuẩn UTF-8
+        $conn->exec("set names utf8");
+        return $conn;
+    } catch(PDOException $exception) {
+        echo "Lỗi kết nối: " . $exception->getMessage();
+        return null;
     }
 }
 ?>

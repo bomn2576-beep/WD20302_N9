@@ -1,35 +1,27 @@
 <?php
-include_once __DIR__ . '/../model/ProductModel.php';
-include_once __DIR__ . '/../model/CategoryModel.php';
-
 class HomeController {
-
     public function index() {
-        try {
-            $productModel = new ProductModel();
-            $categoryModel = new CategoryModel();
-            
-            $popularProducts = $productModel->getPopularProducts(5);
-            
-      
-            $categories = $categoryModel->getAllCategories();
+    $productModel = new ProductModel();
+    
+    // Lấy tất cả sản phẩm mới (giới hạn 4)
+    $newProducts = $productModel->getAllProducts(); 
+    
+    // Lấy danh sách danh mục (Basketball, Tennis, Football...)
+    // Bạn có thể viết thêm hàm getAllCategories() trong ProductModel
+    $sql = "SELECT * FROM danh_muc LIMIT 4";
+    $stmt = (getConnection())->prepare($sql);
+    $stmt->execute();
+    $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $data = [
-                'title' => 'Trang Chủ - PIZZA & PASTA',
-                'popularProducts' => $popularProducts,
-                'categories' => $categories,
-                'base_url_path' => '/WD20302-PRO1014_N5/nhahang/',
-            ];
-            
-            $content_view = __DIR__ . '/../view/home.php'; 
-            extract($data); 
-            include __DIR__ . '/../view/main.php';
-            
-        } catch (Exception $e) {
-            
-            echo "Lỗi: " . $e->getMessage();
-            echo "<br>File: " . $e->getFile();
-            echo "<br>Line: " . $e->getLine();
-        }
-    }
+    $data = [
+        'title' => 'Nike Home',
+        'newProducts' => array_slice($newProducts, 0, 4),
+        'categories' => $categories, // Biến này chứa Basketball, Tennis...
+        'base_url_path' => $GLOBALS['base_url_path'],
+        'content_view' => ROOT_PATH . 'App/View/shop/home.php'
+    ];
+    
+    extract($data);
+    include ROOT_PATH . 'App/View/shop/main.php';
+}
 }

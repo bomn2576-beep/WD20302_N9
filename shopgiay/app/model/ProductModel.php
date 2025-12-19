@@ -1,152 +1,66 @@
 <?php
-
 class ProductModel {
     private $conn;
 
     public function __construct() {
-        global $conn;
-        if (!isset($conn) || $conn === null) {
-            // Include database config nếu chưa có
-            if (!function_exists('getConnection')) {
-                require_once __DIR__ . '/../config/database.php';
-            }
-            $conn = getConnection();
-        }
-        
-        $this->conn = $conn;
-    }
-    public function getPopularProducts($limit = 10) {
-        try {
-            $sql = "SELECT id_mon, ten_mon, gia, hinh_anh, mo_ta, trang_thai
-                    FROM mon_an 
-                    WHERE trang_thai = 'Còn hàng' 
-                    ORDER BY id_mon ASC 
-                    LIMIT :limit";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi truy vấn database: " . $e->getMessage());
-        }
+        $this->conn = getConnection();
     }
 
-
+    // Lấy tất cả sản phẩm
     public function getAllProducts() {
-        try {
-            $sql = "SELECT m.*, dm.ten_danh_muc 
-                    FROM mon_an m
-                    LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
-                    ORDER BY m.id_mon ASC";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi truy vấn database: " . $e->getMessage());
-        }
+        $sql = "SELECT p.*, d.ten_danh_muc FROM san_pham p 
+                LEFT JOIN danh_muc d ON p.id_danh_muc = d.id 
+                ORDER BY p.id DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-  
+    // Lấy 1 sản phẩm theo ID để sửa
     public function getProductById($id) {
-        try {
-            $sql = "SELECT m.*, dm.ten_danh_muc 
-                    FROM mon_an m
-                    LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
-                    WHERE m.id_mon = :id";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi truy vấn database: " . $e->getMessage());
-        }
+        $sql = "SELECT * FROM san_pham WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-   
-    public function getProductsByCategory($categoryId) {
-        try {
-            $sql = "SELECT m.*, dm.ten_danh_muc 
-                    FROM mon_an m
-                    LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
-                    WHERE m.id_danh_muc_mon = :categoryId
-                    ORDER BY m.id_mon ASC";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':categoryId', $categoryId, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi truy vấn database: " . $e->getMessage());
-        }
-    }
-
-    public function createProduct($data) {
-        try {
-            $sql = "INSERT INTO mon_an (ten_mon, gia, hinh_anh, mo_ta, trang_thai, id_danh_muc_mon) 
-                    VALUES (:ten_mon, :gia, :hinh_anh, :mo_ta, :trang_thai, :id_danh_muc_mon)";
-            $stmt = $this->conn->prepare($sql);
-            
-            // Liên kết các tham số
-            $stmt->bindParam(':ten_mon', $data['ten_mon']);
-            $stmt->bindParam(':gia', $data['gia']);
-            $stmt->bindParam(':hinh_anh', $data['hinh_anh']);
-            $stmt->bindParam(':mo_ta', $data['mo_ta']);
-            $stmt->bindParam(':trang_thai', $data['trang_thai']);
-            $stmt->bindParam(':id_danh_muc_mon', $data['id_danh_muc_mon'], PDO::PARAM_INT);
-
-            $stmt->execute();
-            
-            // Trả về ID của bản ghi vừa được tạo
-            return $this->conn->lastInsertId();
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi thêm sản phẩm vào database: " . $e->getMessage());
-        }
-    }
-
-    public function updateProduct($id, $data) {
-        try {
-            $sql = "UPDATE mon_an 
-                    SET ten_mon = :ten_mon, 
-                        gia = :gia, 
-                        hinh_anh = :hinh_anh, 
-                        mo_ta = :mo_ta, 
-                        trang_thai = :trang_thai, 
-                        id_danh_muc_mon = :id_danh_muc_mon
-                    WHERE id_mon = :id";
-            $stmt = $this->conn->prepare($sql);
-            
-            // Liên kết các tham số
-            $stmt->bindParam(':ten_mon', $data['ten_mon']);
-            $stmt->bindParam(':gia', $data['gia']);
-            $stmt->bindParam(':hinh_anh', $data['hinh_anh']);
-            $stmt->bindParam(':mo_ta', $data['mo_ta']);
-            $stmt->bindParam(':trang_thai', $data['trang_thai']);
-            $stmt->bindParam(':id_danh_muc_mon', $data['id_danh_muc_mon'], PDO::PARAM_INT);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-
-            $stmt->execute();
-            
-            // Trả về số lượng hàng bị ảnh hưởng
-            return $stmt->rowCount();
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi cập nhật sản phẩm trong database: " . $e->getMessage());
-        }
-    }
-
+    // THÊM HÀM XÓA
     public function deleteProduct($id) {
-        try {
-            $sql = "DELETE FROM mon_an WHERE id_mon = :id";
-            $stmt = $this->conn->prepare($sql);
-            
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $sql = "DELETE FROM san_pham WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([':id' => $id]);
+    }
 
-            $stmt->execute();
-            
-            // Trả về số lượng hàng bị ảnh hưởng
-            return $stmt->rowCount();
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi xóa sản phẩm khỏi database: " . $e->getMessage());
-        }
+    // THÊM HÀM CẬP NHẬT (SỬA)
+    public function updateProduct($id, $data) {
+        $sql = "UPDATE san_pham SET 
+                id_danh_muc = :id_dm, 
+                ten_san_pham = :ten, 
+                gia_ban = :gia, 
+                anh_dai_dien = :anh, 
+                mo_ta = :mota 
+                WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            ':id_dm' => $data['id_danh_muc'],
+            ':ten'   => $data['ten_san_pham'],
+            ':gia'   => $data['gia_ban'],
+            ':anh'   => $data['anh_dai_dien'],
+            ':mota'  => $data['mo_ta'],
+            ':id'    => $id
+        ]);
+    }
+
+    public function insertProduct($data) {
+        $sql = "INSERT INTO san_pham (id_danh_muc, ten_san_pham, gia_ban, anh_dai_dien, mo_ta) 
+                VALUES (:id_dm, :ten, :gia, :anh, :mota)";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            ':id_dm' => $data['id_danh_muc'],
+            ':ten'   => $data['ten_san_pham'],
+            ':gia'   => $data['gia_ban'],
+            ':anh'   => $data['anh_dai_dien'],
+            ':mota'  => $data['mo_ta']
+        ]);
     }
 }
-
-    
